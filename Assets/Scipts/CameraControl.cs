@@ -17,6 +17,15 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private Transform Pivot;
 
+    [SerializeField]
+    private float maxView;
+
+    [SerializeField]
+    private float minView;
+
+    [SerializeField]
+    private bool invertY;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +44,24 @@ public class CameraControl : MonoBehaviour
         target.Rotate(0, horizontalCamera, 0);
 
         float verticalCamera = Input.GetAxis("Mouse Y") * rotateSpeed;
-        Pivot.Rotate(-verticalCamera, 0, 0);
+        if (invertY)
+        {
+            Pivot.Rotate(-verticalCamera, 0, 0);
+        }
+        else
+        {
+            Pivot.Rotate(verticalCamera, 0, 0);
+        }
+
+        if(Pivot.rotation.eulerAngles.x > maxView && Pivot.rotation.eulerAngles.x < 180f)
+        {
+            Pivot.rotation = Quaternion.Euler(maxView, 0, 0);
+        }
+
+        if (Pivot.rotation.eulerAngles.x > 180f && Pivot.rotation.eulerAngles.x < 360f + minView)
+        {
+            Pivot.rotation = Quaternion.Euler(360f + minView, 0, 0);
+        }
 
         float yAngle = target.eulerAngles.y;
         float xAngle = Pivot.eulerAngles.x;
