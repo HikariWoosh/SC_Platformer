@@ -15,7 +15,10 @@ public class CameraControl : MonoBehaviour
     private float rotateSpeed;
 
     [SerializeField]
-    private Transform Pivot;
+    private Transform verticalPivot;
+
+    [SerializeField]
+    private Transform horizontalPivot;
 
     [SerializeField]
     private float maxView;
@@ -31,8 +34,11 @@ public class CameraControl : MonoBehaviour
     {
         offset = target.position - transform.position;
 
-        Pivot.transform.position = target.transform.position;
-        Pivot.transform.parent = target.transform;
+        verticalPivot.transform.position = target.transform.position;
+        horizontalPivot.transform.position = target.transform.position;
+
+        verticalPivot.transform.parent = horizontalPivot.transform;
+        horizontalPivot.transform.parent = null;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -40,31 +46,33 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        verticalPivot.transform.position = target.transform.position;
+
         float horizontalCamera = Input.GetAxis("Mouse X") * rotateSpeed;
-        target.Rotate(0, horizontalCamera, 0);
+        horizontalPivot.Rotate(0, horizontalCamera, 0);
 
         float verticalCamera = Input.GetAxis("Mouse Y") * rotateSpeed;
         if (invertY)
         {
-            Pivot.Rotate(-verticalCamera, 0, 0);
+            verticalPivot.Rotate(-verticalCamera, 0, 0);
         }
         else
         {
-            Pivot.Rotate(verticalCamera, 0, 0);
+            verticalPivot.Rotate(verticalCamera, 0, 0);
         }
 
-        if(Pivot.rotation.eulerAngles.x > maxView && Pivot.rotation.eulerAngles.x < 180f)
+        if (verticalPivot.rotation.eulerAngles.x > maxView && verticalPivot.rotation.eulerAngles.x < 180.0f)
         {
-            Pivot.rotation = Quaternion.Euler(maxView, 0, 0);
+            verticalPivot.rotation = Quaternion.Euler(maxView, verticalPivot.eulerAngles.y, 0.0f);
         }
 
-        if (Pivot.rotation.eulerAngles.x > 180f && Pivot.rotation.eulerAngles.x < 360f + minView)
+        if (verticalPivot.rotation.eulerAngles.x > 180.0f && verticalPivot.rotation.eulerAngles.x < 360f + minView)
         {
-            Pivot.rotation = Quaternion.Euler(360f + minView, 0, 0);
+            verticalPivot.rotation = Quaternion.Euler(360.0f + minView, verticalPivot.eulerAngles.y, 0.0f);
         }
 
-        float yAngle = target.eulerAngles.y;
-        float xAngle = Pivot.eulerAngles.x;
+        float yAngle = verticalPivot.eulerAngles.y;
+        float xAngle = verticalPivot.eulerAngles.x;
    
         Quaternion rotationValue = Quaternion.Euler(xAngle, yAngle, 0);
         transform.position = target.position - (rotationValue * offset);
