@@ -29,11 +29,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject playerModel;
 
-
     private Vector3 moveDirection;
 
     private CharacterController cc;
 
+    [SerializeField]
+    private float distToGround = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +51,11 @@ public class PlayerController : MonoBehaviour
         moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
         moveDirection = moveDirection.normalized * moveSpeed;
 
+
+        Debug.Log(isGrounded());
         // Check for jump
         moveDirection.y = yStore;
-        if (cc.isGrounded)
+        if (isGrounded())
         {
             moveDirection.y = 0f;
             if (Input.GetButtonDown("Jump"))
@@ -61,7 +64,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-      
+
 
         moveDirection.y = moveDirection.y + (gravity * gravitySpeed * Time.deltaTime);
 
@@ -87,5 +90,53 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isGrounded", cc.isGrounded);
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
     }
+
+    bool isGrounded()
+    {
+        // Define the four edge points of the capsule representing north, east, west, and south edges
+        Vector3[] edges = new Vector3[8];
+        Vector3 capsuleCenter = transform.position;
+        float capsuleRadius = GetComponent<CapsuleCollider>().radius;
+        float capsuleHeight = GetComponent<CapsuleCollider>().height;
+
+        // Calculate the positions of the four edges
+        edges[0] = capsuleCenter + Vector3.right * capsuleRadius; // North edge
+
+        edges[1] = capsuleCenter - Vector3.forward * capsuleRadius; // East edge
+
+        edges[2] = capsuleCenter - Vector3.right * capsuleRadius; // West edge
+
+        edges[3] = capsuleCenter + Vector3.forward * capsuleRadius; // South edge
+
+        edges[4] = capsuleCenter + (Vector3.right - Vector3.forward) * capsuleRadius; // North East Edge
+
+        edges[5] = capsuleCenter + (Vector3.right + Vector3.forward) * capsuleRadius; // North West Edge
+
+        edges[6] = capsuleCenter - (Vector3.right - Vector3.forward) * capsuleRadius; // South East Edge
+
+        edges[7] = capsuleCenter - (Vector3.right + Vector3.forward) * capsuleRadius; // South East Edge
+
+        // Check if any of the edges are grounded
+        bool anyEdgeGrounded = false;
+        foreach (Vector3 edge in edges)
+        {
+            if (Physics.Raycast(edge, Vector3.down, distToGround))
+            {
+                // Visualize the raycast
+                Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
+                anyEdgeGrounded = true;
+            }
+            else
+            {
+                // Visualize the raycast
+                Debug.DrawRay(edge, Vector3.down * distToGround, Color.red);
+            }
+        }
+
+        return anyEdgeGrounded;
+    }
+
+
+
 
 }
