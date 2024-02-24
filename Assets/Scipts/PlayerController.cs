@@ -5,67 +5,99 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    // Variables that control player movement
+    [Header("Player Controls")]
     [SerializeField]
-    private float moveSpeed;
-
-    [SerializeField]
-    private float jumpHeight;
-
-    [SerializeField]
-    private float gravity;
+    private float moveSpeed; // Controls how fast the player moves
 
     [SerializeField]
-    private float gravitySpeed;
+    private float jumpHeight; // Controls how high the player jumps
 
     [SerializeField]
-    private Animator anim;
+    private float gravity; // Effects how fast the player falls in the air
 
     [SerializeField]
-    private Transform Pivot;
+    private float gravitySpeed; // Used to control how strongly gravity is applied to the player
 
     [SerializeField]
-    private float rotateSpeed;
+    private float rotateSpeed; // Controls how quickly the player model turns in different directions
 
     [SerializeField]
-    private GameObject playerModel;
+    private float distToGround = 1.0001f; // How far the player is off the ground
 
-    private Vector3 moveDirection;
+    private Vector3 moveDirection; // Controls the direction the player moves in
 
-    private CharacterController cc;
+
+    //Variables related to 'Coyote Time'
+    [Header("Coyote Time Settings")]
+    [SerializeField]
+    private float coyoteTimeDuration = 0.1f; // Amount of time the player is given after leaving a platform to perform a jump
 
     [SerializeField]
-    private float distToGround = 0.5f;
+    private float coyoteTimeCounter; // A timer to track how long the player has to perfrom their jump
+
+
+    [Header("Game Objects")]
+    [SerializeField]
+    private GameObject playerModel; // The model the capsule uses is assigned here
+
+    [SerializeField]
+    private Transform Pivot;  // A pivot used for camera rotations
+
+    [SerializeField]
+    private Animator anim; // Used to control animaiton 
+
+    private CharacterController cc; // The character controller component is declared here
+
 
     // Start is called before the first frame update
     void Start()
     {
-        cc = gameObject.GetComponent<CharacterController>();
+        cc = gameObject.GetComponent<CharacterController>(); // Assigns the character controller component to the variable 'cc'
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Update coyote time counter
+        if (isGrounded())
+        {
+            coyoteTimeCounter = coyoteTimeDuration;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
 
+        // Check for jump including coyote time
+        if ((coyoteTimeCounter > 0 || isGrounded()) && Input.GetButtonDown("Jump"))
+        {
+            moveDirection.y = jumpHeight;
+            coyoteTimeCounter = 0; // Reset coyote time counter when jump is executed
+        }
+
+        // Store the current y direction, this is to avoid it being normalized.
         float yStore = moveDirection.y;
 
+        // Controls movement and normalizes it meaning it will be consistant if both inputs are pressed
         moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
         moveDirection = moveDirection.normalized * moveSpeed;
 
-
-        Debug.Log(isGrounded());
         // Check for jump
         moveDirection.y = yStore;
-        if (isGrounded())
+        // Allowing jump only if grounded and coyote time is over
+        if (isGrounded() && coyoteTimeCounter <= 0)
         {
             moveDirection.y = 0f;
             if (Input.GetButtonDown("Jump"))
             {
-                moveDirection.y = jumpHeight;
+                // Uses the jumpHeight variable to tell the character where they should move to on the Y
+                moveDirection.y = jumpHeight; 
             }
         }
 
 
-
+        // Applies the players upwards force and modifies it depending on gravity
         moveDirection.y = moveDirection.y + (gravity * gravitySpeed * Time.deltaTime);
 
         // Time.deltaTime is the time since the last frame e.g 60fps = 1/60s
@@ -79,9 +111,8 @@ public class PlayerController : MonoBehaviour
             // If the player is moving, calculate new rotation
             if (moveDirection != Vector3.zero)
             {
+                // Rotation is created and applied using Quaternion.Slerp (Linear interpolation for rotation) for a smoothing effect
                 Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
-
-                // Apply the rotation gradually
                 playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
             }
         }
@@ -93,30 +124,22 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded()
     {
-        // Define the four edge points of the capsule representing north, east, west, and south edges
+        // Define the edge points of the capsule
         Vector3[] edges = new Vector3[8];
         Vector3 capsuleCenter = transform.position;
         float capsuleRadius = GetComponent<CapsuleCollider>().radius;
-        float capsuleHeight = GetComponent<CapsuleCollider>().height;
 
-        // Calculate the positions of the four edges
-        edges[0] = capsuleCenter + Vector3.right * capsuleRadius; // North edge
+        // Calculate the positions of the edges
+        edges[0] = capsuleCenter + Vector3.right * capsuleRadius; // North
+        edges[1] = capsuleCenter - Vector3.forward * capsuleRadius; // East 
+        edges[2] = capsuleCenter - Vector3.right * capsuleRadius; // West 
+        edges[3] = capsuleCenter + Vector3.forward * capsuleRadius; // South 
+        edges[4] = capsuleCenter + (Vector3.right - Vector3.forward) * capsuleRadius; // North East 
+        edges[5] = capsuleCenter + (Vector3.right + Vector3.forward) * capsuleRadius; // North West 
+        edges[6] = capsuleCenter - (Vector3.right - Vector3.forward) * capsuleRadius; // South East 
+        edges[7] = capsuleCenter - (Vector3.right + Vector3.forward) * capsuleRadius; // South East 
 
-        edges[1] = capsuleCenter - Vector3.forward * capsuleRadius; // East edge
-
-        edges[2] = capsuleCenter - Vector3.right * capsuleRadius; // West edge
-
-        edges[3] = capsuleCenter + Vector3.forward * capsuleRadius; // South edge
-
-        edges[4] = capsuleCenter + (Vector3.right - Vector3.forward) * capsuleRadius; // North East Edge
-
-        edges[5] = capsuleCenter + (Vector3.right + Vector3.forward) * capsuleRadius; // North West Edge
-
-        edges[6] = capsuleCenter - (Vector3.right - Vector3.forward) * capsuleRadius; // South East Edge
-
-        edges[7] = capsuleCenter - (Vector3.right + Vector3.forward) * capsuleRadius; // South East Edge
-
-        // Check if any of the edges are grounded
+        // Checks if any edge is grounded
         bool anyEdgeGrounded = false;
         foreach (Vector3 edge in edges)
         {
@@ -135,8 +158,5 @@ public class PlayerController : MonoBehaviour
 
         return anyEdgeGrounded;
     }
-
-
-
 
 }
