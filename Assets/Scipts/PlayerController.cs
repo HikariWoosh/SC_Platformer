@@ -118,8 +118,33 @@ public class PlayerController : MonoBehaviour
         }
 
         // Animation handling
-        anim.SetBool("isGrounded", cc.isGrounded);
+        anim.SetBool("isFalling", CheckFalling());
+        anim.SetBool("isGrounded", isGrounded());
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+    }
+
+    bool CheckFalling()
+    {
+        // Check if the player is grounded before considering them falling
+        if (!isGrounded())
+        {
+            // Player is only falling if they are moving down
+            bool isFalling = cc.velocity.y < -9.81;
+
+            // Returns the value of isFalling
+            if (isFalling)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     bool isGrounded()
