@@ -47,6 +47,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator anim; // Used to control animaiton 
 
+
+    [Header("Camera Switching")]
+    [SerializeField]
+    private Camera MainCamera;
+
+    [SerializeField]
+    private Camera Camera2D;
+
     private CharacterController cc; // The character controller component is declared here
 
 
@@ -79,8 +87,18 @@ public class PlayerController : MonoBehaviour
         // Store the current y direction, this is to avoid it being normalized.
         float yStore = moveDirection.y;
 
-        // Controls movement and normalizes it meaning it will be consistant if both inputs are pressed
-        moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
+        // Controls movement
+        if (MainCamera.enabled)
+        {
+            // If MainCamera is enabled, movement depends on camera orientation
+            moveDirection = (Pivot.forward * Input.GetAxisRaw("Vertical")) + (Pivot.right * Input.GetAxisRaw("Horizontal"));
+        }
+        else if (Camera2D.enabled)
+        {
+            // If Camera2D is enabled, movement is fixed along world axis
+            moveDirection = (Vector3.forward * Input.GetAxisRaw("Horizontal")) + (-Vector3.right * Input.GetAxisRaw("Vertical"));
+        }
+
         moveDirection = moveDirection.normalized * moveSpeed;
 
         // Check for jump
@@ -92,10 +110,9 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 // Uses the jumpHeight variable to tell the character where they should move to on the Y
-                moveDirection.y = jumpHeight; 
+                moveDirection.y = jumpHeight;
             }
         }
-
 
         // Applies the players upwards force and modifies it depending on gravity
         moveDirection.y = moveDirection.y + (gravity * gravitySpeed * Time.deltaTime);
@@ -106,7 +123,15 @@ public class PlayerController : MonoBehaviour
         //If the player is moving make them face the correct direction
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-            transform.rotation = Quaternion.Euler(0f, Pivot.rotation.eulerAngles.y, 0f);
+            if (MainCamera.enabled)
+            {
+                transform.rotation = Quaternion.Euler(0f, Pivot.rotation.eulerAngles.y, 0f);
+            }
+            else if (Camera2D.enabled)
+            {
+                // If Camera2D is enabled, keep the player's rotation aligned with the world
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
 
             // If the player is moving, calculate new rotation
             if (moveDirection != Vector3.zero)
@@ -129,7 +154,7 @@ public class PlayerController : MonoBehaviour
         if (!isGrounded())
         {
             // Player is only falling if they are moving down
-            bool isFalling = cc.velocity.y < -9.81;
+            bool isFalling = cc.velocity.y < (-9.81 * Time.deltaTime);
 
             // Returns the value of isFalling
             if (isFalling)

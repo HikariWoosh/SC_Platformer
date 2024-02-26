@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraControl : MonoBehaviour
 {
@@ -33,14 +34,24 @@ public class CameraControl : MonoBehaviour
     private bool invertY; // Control setting
 
 
+    [Header("Camera Switching")]
+    [SerializeField]
+    private Camera MainCamera;
+
+    [SerializeField]
+    private Camera Camera2D;
+
+    private Vector3 MainStored;
+
+
     // Start is called before the first frame update
     void Start()
     {
         // Sets the offset position
-        offset = target.position - transform.position; 
+        offset = target.position - transform.position;
 
         // Sets the pivot locations
-        verticalPivot.transform.position = target.transform.position; 
+        verticalPivot.transform.position = target.transform.position;
         horizontalPivot.transform.position = target.transform.position;
 
         // Sets the horizontral pivot as the parent of the vertical pivot
@@ -55,56 +66,83 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        // Sets the pivot to the same position as the player
-        verticalPivot.transform.position = target.transform.position;
 
-
-        // Controls the pivots rotations depending on how the player moves their mouse
-        float horizontalCamera = Input.GetAxis("Mouse X") * rotateSpeed;
-        horizontalPivot.Rotate(0, horizontalCamera, 0);
-
-        float verticalCamera = Input.GetAxis("Mouse Y") * rotateSpeed;
-        // Controls the Y invert (e.g if mouse goes up, camera goes down)
-        if (invertY)
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            verticalPivot.Rotate(-verticalCamera, 0, 0);
+            // Uses the jumpHeight variable to tell the character where they should move to on the Y
+            Show2DView();
+        }
+
+        if (MainCamera.enabled == true)
+        {
+            // Sets the pivot to the same position as the player
+            verticalPivot.transform.position = target.transform.position;
+
+            // Controls the pivots rotations depending on how the player moves their mouse
+            float horizontalCamera = Input.GetAxis("Mouse X") * rotateSpeed;
+            horizontalPivot.Rotate(0, horizontalCamera, 0);
+
+            float verticalCamera = Input.GetAxis("Mouse Y") * rotateSpeed;
+            // Controls the Y invert (e.g if mouse goes up, camera goes down)
+            if (invertY)
+            {
+                verticalPivot.Rotate(-verticalCamera, 0, 0);
+            }
+            else
+            {
+                verticalPivot.Rotate(verticalCamera, 0, 0);
+            }
+
+
+            // Controls how far up the player can look
+            if (verticalPivot.rotation.eulerAngles.x > maxView && verticalPivot.rotation.eulerAngles.x < 180.0f)
+            {
+                verticalPivot.rotation = Quaternion.Euler(maxView, verticalPivot.eulerAngles.y, 0.0f);
+            }
+
+            // Controls how low down the player can look
+            if (verticalPivot.rotation.eulerAngles.x > 180.0f && verticalPivot.rotation.eulerAngles.x < 360f + minView)
+            {
+                verticalPivot.rotation = Quaternion.Euler(360.0f + minView, verticalPivot.eulerAngles.y, 0.0f);
+            }
+
+            // Takes in the rotation of the pivots (vPivot inherits hPivots x)
+            float yAngle = verticalPivot.eulerAngles.y;
+            float xAngle = verticalPivot.eulerAngles.x;
+
+
+            // Applies the pivot values
+            Quaternion rotationValue = Quaternion.Euler(xAngle, yAngle, 0);
+            transform.position = target.position - (rotationValue * offset);
+
+
+            // Prevents the camera from flipping
+            if (transform.position.y < target.position.y)
+            {
+                transform.position = new Vector3(transform.position.x, target.position.y - 0.9f, transform.position.z);
+            }
+
+
+            // Makes the camera look at the player
+            transform.LookAt(target);
+        }
+    }
+
+    public void Show2DView()
+    {
+        if (MainCamera.enabled == true)
+        {
+            MainStored = MainCamera.transform.position;
+            MainCamera.transform.position = Camera2D.transform.position;
+            transform.LookAt(target);
+            MainCamera.enabled = false;
+            Camera2D.enabled = true;
         }
         else
         {
-            verticalPivot.Rotate(verticalCamera, 0, 0);
+            MainCamera.enabled = true;
+            Camera2D.enabled = false;
+            MainCamera.transform.position = MainStored;
         }
-
-
-        // Controls how far up the player can look
-        if (verticalPivot.rotation.eulerAngles.x > maxView && verticalPivot.rotation.eulerAngles.x < 180.0f)
-        {
-            verticalPivot.rotation = Quaternion.Euler(maxView, verticalPivot.eulerAngles.y, 0.0f);
-        }
-
-        // Controls how low down the player can look
-        if (verticalPivot.rotation.eulerAngles.x > 180.0f && verticalPivot.rotation.eulerAngles.x < 360f + minView)
-        {
-            verticalPivot.rotation = Quaternion.Euler(360.0f + minView, verticalPivot.eulerAngles.y, 0.0f);
-        }
-
-        // Takes in the rotation of the pivots (vPivot inherits hPivots x)
-        float yAngle = verticalPivot.eulerAngles.y;
-        float xAngle = verticalPivot.eulerAngles.x;
-   
-
-        // Applies the pivot values
-        Quaternion rotationValue = Quaternion.Euler(xAngle, yAngle, 0);
-        transform.position = target.position - (rotationValue * offset);
-
-
-        // Prevents the camera from flipping
-        if (transform.position.y < target.position.y)
-        {
-            transform.position = new Vector3(transform.position.x, target.position.y - 0.9f, transform.position.z);
-        }
-
-
-        // Makes the camera look at the player
-        transform.LookAt(target);
     }
 }
