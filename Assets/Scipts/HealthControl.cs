@@ -15,7 +15,7 @@ public class HealthControl : MonoBehaviour
     private bool isRespawning;
 
     [SerializeField]
-    private Vector3 respawnPoint;
+    public Vector3 respawnPoint;
 
     [SerializeField]
     private PlayerController playerCharacter;
@@ -105,7 +105,10 @@ public class HealthControl : MonoBehaviour
     {
         isRespawning = true;
         playerCharacter.gameObject.SetActive(false);
-        Instantiate(deathParticles, playerCharacter.transform.position, playerCharacter.transform.rotation);
+
+        GameObject Particles = Instantiate(deathParticles, playerCharacter.transform.position, playerCharacter.transform.rotation);
+        Destroy(Particles, 1f);
+
         yield return new WaitForSeconds(respawnLength);
 
         isFading = true;
@@ -127,6 +130,11 @@ public class HealthControl : MonoBehaviour
         yield return new WaitForSeconds(waitFade);
 
         unFading = true;
+    }
+
+    public void setCheckpoint(Vector3 newCheckpoint)
+    {
+        respawnPoint = newCheckpoint;
     }
 
 }
