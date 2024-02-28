@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float distToGround = 1.0001f; // How far the player is off the ground
 
+    [SerializeField]
     private Vector3 moveDirection; // Controls the direction the player moves in
 
 
@@ -67,6 +68,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (cc.isGrounded)
+        {
+            moveDirection.y = 0;
+        }
+
         // Update coyote time counter
         if (isGrounded())
         {
@@ -106,7 +112,6 @@ public class PlayerController : MonoBehaviour
         // Allowing jump only if grounded and coyote time is over
         if (isGrounded() && coyoteTimeCounter <= 0)
         {
-            moveDirection.y = 0f;
             if (Input.GetButtonDown("Jump"))
             {
                 // Uses the jumpHeight variable to tell the character where they should move to on the Y
@@ -122,7 +127,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Applies the players upwards force and modifies it depending on gravity
-        moveDirection.y = moveDirection.y + (gravity * gravitySpeed * Time.deltaTime);
+        moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
 
         // Time.deltaTime is the time since the last frame e.g 60fps = 1/60s
         cc.Move(moveDirection * Time.deltaTime);
@@ -201,11 +206,18 @@ public class PlayerController : MonoBehaviour
         bool anyEdgeGrounded = false;
         foreach (Vector3 edge in edges)
         {
-            if (Physics.Raycast(edge, Vector3.down, distToGround))
+            RaycastHit hit;
+            if (Physics.Raycast(edge, Vector3.down, out hit, distToGround))
             {
-                // Visualize the raycast
-                Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
-                anyEdgeGrounded = true;
+          
+                // Check if the hit object is not on the "Checkpoint" layer
+                if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Checkpoints"))
+                {
+                    // Visualize the raycast
+                    Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
+
+                    anyEdgeGrounded = true;
+                }
             }
             else
             {

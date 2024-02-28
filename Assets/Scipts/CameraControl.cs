@@ -44,6 +44,10 @@ public class CameraControl : MonoBehaviour
     private Vector3 MainStored;
 
 
+    [Header("Layer Masks")]
+    private int playerLayerMask;
+    private int ignorePlayerLayerMask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,22 +58,26 @@ public class CameraControl : MonoBehaviour
         verticalPivot.transform.position = target.transform.position;
         horizontalPivot.transform.position = target.transform.position;
 
-        // Sets the horizontral pivot as the parent of the vertical pivot
+        // Sets the horizontal pivot as the parent of the vertical pivot
         verticalPivot.transform.parent = horizontalPivot.transform;
         horizontalPivot.transform.parent = null;
 
 
         // Makes it so the cursor cannot be seen during gameplay
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Create layer masks
+        playerLayerMask = 1 << target.gameObject.layer;
+        ignorePlayerLayerMask = ~playerLayerMask;
     }
 
-    // Update is called once per frame
+
+    // Update is called once per frame after Update()
     void LateUpdate()
     {
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            // Uses the jumpHeight variable to tell the character where they should move to on the Y
             Show2DView();
         }
 
@@ -100,6 +108,7 @@ public class CameraControl : MonoBehaviour
                 verticalPivot.rotation = Quaternion.Euler(maxView, verticalPivot.eulerAngles.y, 0.0f);
             }
 
+
             // Controls how low down the player can look
             if (verticalPivot.rotation.eulerAngles.x > 180.0f && verticalPivot.rotation.eulerAngles.x < 360f + minView)
             {
@@ -115,6 +124,24 @@ public class CameraControl : MonoBehaviour
             Quaternion rotationValue = Quaternion.Euler(xAngle, yAngle, 0);
             transform.position = target.position - (rotationValue * offset);
 
+
+            // Calculate desired camera position
+            Vector3 desiredPosition = target.position - (rotationValue * offset);
+
+
+            // Perform raycast to check for collision
+            RaycastHit hit;
+
+            if (Physics.Linecast(target.position, desiredPosition, out hit, ignorePlayerLayerMask))
+            {
+                // If a collision occurs with anything except the player, set camera position to hit point
+                transform.position = hit.point;
+            }
+            else
+            {
+                // If no collision, set camera position as desired position
+                transform.position = desiredPosition;
+            }
 
             // Prevents the camera from flipping
             if (transform.position.y < target.position.y)
