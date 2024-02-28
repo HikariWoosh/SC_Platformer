@@ -114,6 +114,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // Allows for variable jump heights
+        if (Input.GetButtonUp("Jump") && moveDirection.y > 0f)
+        {
+            // Uses the jumpHeight variable to tell the character where they should move to on the Y
+            moveDirection.y = moveDirection.y * .5f;
+        }
+
         // Applies the players upwards force and modifies it depending on gravity
         moveDirection.y = moveDirection.y + (gravity * gravitySpeed * Time.deltaTime);
 
@@ -142,7 +149,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Animation handling
+
+          // Animation handling
         anim.SetBool("isFalling", CheckFalling());
         anim.SetBool("isGrounded", isGrounded());
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
