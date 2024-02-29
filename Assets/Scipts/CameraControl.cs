@@ -36,17 +36,18 @@ public class CameraControl : MonoBehaviour
 
     [Header("Camera Switching")]
     [SerializeField]
-    private Camera MainCamera;
+    private Camera MainCamera; // Main 3d Camera Field
 
     [SerializeField]
-    private Camera Camera2D;
+    private Camera Camera2D; // Field for the 2d camera
 
-    private Vector3 MainStored;
+    private Vector3 MainStored; // Variable to store the position of the 3d camera
 
 
     [Header("Layer Masks")]
     private int playerLayerMask;
-    private int ignorePlayerLayerMask;
+    private int checkPointLayerMask;
+    private int ignoreLayerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -68,19 +69,23 @@ public class CameraControl : MonoBehaviour
 
         // Create layer masks
         playerLayerMask = 1 << target.gameObject.layer;
-        ignorePlayerLayerMask = ~playerLayerMask;
+        checkPointLayerMask = 1 << LayerMask.NameToLayer("Checkpoints"); // Assuming "CheckpointLayer" is the name of your checkpoint layer
+        int playerAndCheckpointLayerMask = playerLayerMask | checkPointLayerMask;
+        ignoreLayerMask = ~playerAndCheckpointLayerMask;
+
     }
 
 
-    // Update is called once per frame after Update()
+    // Called once per frame after Update()
     void LateUpdate()
     {
-
+        // Button to switch camera view
         if (Input.GetKeyDown(KeyCode.G))
         {
             Show2DView();
         }
 
+        // 3D camera control
         if (MainCamera.enabled == true)
         {
             // Sets the pivot to the same position as the player
@@ -132,16 +137,18 @@ public class CameraControl : MonoBehaviour
             // Perform raycast to check for collision
             RaycastHit hit;
 
-            if (Physics.Linecast(target.position, desiredPosition, out hit, ignorePlayerLayerMask))
+            if (Physics.Linecast(target.position, desiredPosition, out hit, ignoreLayerMask))
             {
                 // If a collision occurs with anything except the player, set camera position to hit point
                 transform.position = hit.point;
             }
+
             else
             {
                 // If no collision, set camera position as desired position
                 transform.position = desiredPosition;
             }
+
 
             // Prevents the camera from flipping
             if (transform.position.y < target.position.y)
@@ -155,21 +162,23 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    // Function to switch the camera to a 2d view
     public void Show2DView()
     {
+        // If already in 2d then switch back to 3d and vice versa
         if (MainCamera.enabled == true)
         {
-            MainStored = MainCamera.transform.position;
-            MainCamera.transform.position = Camera2D.transform.position;
-            transform.LookAt(target);
-            MainCamera.enabled = false;
-            Camera2D.enabled = true;
+            MainStored = MainCamera.transform.position; // Stores the main cameras position
+            MainCamera.transform.position = Camera2D.transform.position; // Stores the main camera at the 2d cameras location
+            transform.LookAt(target); // Makes the camera look at the player
+            MainCamera.enabled = false; 
+            Camera2D.enabled = true; 
         }
         else
         {
-            MainCamera.enabled = true;
+            MainCamera.enabled = true; 
             Camera2D.enabled = false;
-            MainCamera.transform.position = MainStored;
+            MainCamera.transform.position = MainStored; // Repositions the camera to its previous position
         }
     }
 }

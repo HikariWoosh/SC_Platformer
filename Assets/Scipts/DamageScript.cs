@@ -4,25 +4,16 @@ using UnityEngine;
 
 public class DamageScript : MonoBehaviour
 {
-    public int Damage = 1;
+    [Header("Damage Controller")]
+    [SerializeField]
+    public int Damage = 1; // Damage dealt to the player
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // When a collider triggers collision with this object
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Player") // If the collider is the player
         {
-            FindAnyObjectByType<HealthControl>().damagePlayer(Damage);
+            FindAnyObjectByType<HealthControl>().damagePlayer(Damage); // Deal damage to the player equal to Damage
         }
     }
 }

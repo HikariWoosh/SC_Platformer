@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraControlSecondDimension : MonoBehaviour
 {
+    [Header("Camera Controls")]
     [SerializeField]
     private Transform target; // The target the camera will follow
 
@@ -17,17 +18,17 @@ public class CameraControlSecondDimension : MonoBehaviour
         offset = target.position - transform.position;
     }
 
-    // Update is called once per frame
+    // Called once per frame after Update()
     void LateUpdate()
     {
-        // Update the camera's position based on the playes Z position
+        // Create a new Vector3 position based on the players position
         Vector3 newPosition = transform.position;
         newPosition.z = target.position.z - offset.z;
         newPosition.y = target.position.y - offset.y;
         newPosition.x = target.position.x - offset.x;
         transform.position = newPosition;
 
-        // Change the Z axis whilst maintaing others
+        // Change the 2d cameras position based on the player
         transform.eulerAngles = new Vector3(
             target.eulerAngles.x,
             transform.eulerAngles.y,

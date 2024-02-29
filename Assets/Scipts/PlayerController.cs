@@ -58,6 +58,10 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController cc; // The character controller component is declared here
 
+    [Header("Sound Effects")]
+    [SerializeField]
+    private AudioSource jumpSoundEffect;
+
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +91,7 @@ public class PlayerController : MonoBehaviour
         if ((coyoteTimeCounter > 0 || isGrounded()) && Input.GetButtonDown("Jump"))
         {
             moveDirection.y = jumpHeight;
+            jumpSoundEffect.Play();
             coyoteTimeCounter = 0; // Reset coyote time counter when jump is executed
         }
 
@@ -116,6 +121,7 @@ public class PlayerController : MonoBehaviour
             {
                 // Uses the jumpHeight variable to tell the character where they should move to on the Y
                 moveDirection.y = jumpHeight;
+                jumpSoundEffect.Play();
             }
         }
 
