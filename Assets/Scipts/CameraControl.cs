@@ -65,7 +65,7 @@ public class CameraControl : MonoBehaviour
 
 
         // Makes it so the cursor cannot be seen during gameplay
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         // Create layer masks
         playerLayerMask = 1 << target.gameObject.layer;
