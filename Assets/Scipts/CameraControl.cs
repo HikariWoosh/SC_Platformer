@@ -162,6 +162,11 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    public void SetRotateSpeed(float speed)
+    {
+        rotateSpeed = speed;
+    }
+
     // Function to switch the camera to a 2d view
     public void Show2DView()
     {
