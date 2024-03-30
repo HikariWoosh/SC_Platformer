@@ -2,24 +2,78 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
-    public AudioMixer myMix;
+    [Header("Mixers")]
 
     [SerializeField]
-    public Slider vol_Slider;
+    private AudioMixer myMix;
+
+
+    [Header("Sliders")]
+
+    [SerializeField]
+    private Slider master_Slider;
+
+    [SerializeField]
+    private Slider music_Slider;
+
+    [SerializeField]
+    private Slider sfx_Slider;
+
+    [Header("Dropdowns")]
+
+    [SerializeField]
+    private TMP_Dropdown resolutionSelect;
+
+    [SerializeField]
+    private TMP_Dropdown fullscreenSelect;
+
+    [SerializeField]
+    private TMP_Dropdown qualitySelect;
+
+    Resolution[] resolutions;
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey("musicVolume"))
+
+        LoadResolutions();
+
+        if (PlayerPrefs.HasKey("masterVolume"))
         {
-            LoadVolume();
+            LoadMasterVolume();
         }
         else
         {
-            SetVolume();
+            SetMasterVolume();
+        }
+
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            LoadMusicVolume();
+        }
+        else
+        {
+            SetMusicVolume();
+        }
+
+        if (PlayerPrefs.HasKey("sfxVolume"))
+        {
+            LoadSFXVolume();
+        }
+        else
+        {
+            SetSFXVolume();
+        }
+
+
+        if (PlayerPrefs.HasKey("fullscreen"))
+        {
+            LoadFullscreen();
         }
 
         if (PlayerPrefs.HasKey("qualityLevel"))
@@ -38,16 +92,40 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void SetVolume()
+    public void SetMasterVolume()
     {
-        float volume = vol_Slider.value;
+        float volume = master_Slider.value;
         myMix.SetFloat("Master", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("masterVolume", volume);
+    }
+
+    private void LoadMasterVolume()
+    {
+        master_Slider.value = PlayerPrefs.GetFloat("masterVolume");
+    }
+
+    public void SetMusicVolume()
+    {
+        float volume = music_Slider.value;
+        myMix.SetFloat("Music", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("musicVolume", volume);
     }
 
-    private void LoadVolume() 
+    private void LoadMusicVolume()
     {
-        vol_Slider.value = PlayerPrefs.GetFloat("musicVolume");
+        music_Slider.value = PlayerPrefs.GetFloat("musicVolume");
+    }
+
+    public void SetSFXVolume()
+    {
+        float volume = sfx_Slider.value;
+        myMix.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("sfxVolume", volume);
+    }
+
+    private void LoadSFXVolume()
+    {
+        sfx_Slider.value = PlayerPrefs.GetFloat("sfxVolume");
     }
 
     public void QualitySet(int qualityIndex)
@@ -60,6 +138,63 @@ public class MainMenu : MonoBehaviour
     private void LoadQuality()
     {
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("qualityLevel"));
+        qualitySelect.value = PlayerPrefs.GetInt("qualityLevel");
+        resolutionSelect.RefreshShownValue();
     }
 
+    public void FullscreenSet(int fullscreenIndex)
+    {
+        if (fullscreenIndex == 0)
+        {
+            Screen.fullScreen = true;
+            PlayerPrefs.SetInt("fullscreen", fullscreenIndex);
+        }
+        else
+        {
+            Screen.fullScreen = false;
+            PlayerPrefs.SetInt("fullscreen", fullscreenIndex);
+        }
+
+    }
+    private void LoadFullscreen()
+    {
+        int Loaded = PlayerPrefs.GetInt("fullscreen");
+        FullscreenSet(Loaded);
+        fullscreenSelect.value = PlayerPrefs.GetInt("fullscreen");
+        fullscreenSelect.RefreshShownValue();
+    }
+
+    public void SetResolutin(int ResolutionIndex)
+    {
+        Resolution resolution = resolutions[ResolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    private void LoadResolutions()
+    {
+        resolutions = Screen.resolutions; // Gets resolutions of current screen
+
+        resolutionSelect.ClearOptions(); // Clears out all options in resolution dropdown
+
+        List<string> options = new List<string>(); // List of string which will become options
+
+        int currentResolution = 0;
+
+        // Loops through each element in array and create an option for the list
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + "x" + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolution = i;
+            }
+        }
+
+        // Adds the option list to the dropdwon
+        resolutionSelect.AddOptions(options);
+        resolutionSelect.value = currentResolution;
+        resolutionSelect.RefreshShownValue();
+    }
 }

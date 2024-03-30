@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ public class HealthControl : MonoBehaviour
 
     [Header("Respawn Details")]
     [SerializeField]
-    private bool isRespawning; // Variable to control the respawn process
+    public bool isRespawning; // Variable to control the respawn process
 
     [SerializeField]
     public Vector3 respawnPoint; // Position of respawn point
@@ -55,10 +56,21 @@ public class HealthControl : MonoBehaviour
     [SerializeField]
     private AudioSource checkpointSoundEffect; // Checkpoint Sound Effect AS slot
 
+
+    [Header("Deaths")]
+
+    [SerializeField]
+    private TMP_Text deathText;
+
+    [SerializeField]
+    private int deaths = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         Health = maxHealth; // Sets the players health to max upon spawning
+
+        deathText.text = string.Format("x {0}", deaths); // Sets death text to 0
 
         respawnPoint = playerCharacter.transform.position; // Sets the players respawn point to were they begin
     }
@@ -129,6 +141,10 @@ public class HealthControl : MonoBehaviour
         // Disables the playerCharacter, preventing it from being accessed
         playerCharacter.gameObject.SetActive(false);
 
+        // Increments the players death counter
+        deaths += 1;
+        deathText.text = string.Format("x {0}", deaths);
+
         // Plays the particle effect ontop of the player when they die, deleting the particle clone after 1 second
         GameObject Particles = Instantiate(deathParticles, playerCharacter.transform.position, playerCharacter.transform.rotation);
         Destroy(Particles, 1f);
@@ -138,8 +154,6 @@ public class HealthControl : MonoBehaviour
         isFading = true;
 
         yield return new WaitForSeconds(waitFade); // Waits until the fade begins
-
-        isRespawning = false;
 
         // Enables the player character, allowing it to be accessed 
         playerCharacter.gameObject.SetActive(true);
@@ -154,6 +168,7 @@ public class HealthControl : MonoBehaviour
         charControl.enabled = true; // Re-enables the players character controller to allow them to move again
 
         yield return new WaitForSeconds(waitFade); // Waits until the fade finishes
+        isRespawning = false;
         unFading = true;
     }
 

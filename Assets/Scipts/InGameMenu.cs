@@ -9,19 +9,26 @@ public class InGameMenu : MonoBehaviour
     [SerializeField]
     private GameObject gameCamera;
 
+    [SerializeField]
+    private GameObject gameManager;
+
     private bool isPaused = false;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            bool isRespawning = gameManager.GetComponent<HealthControl>().isRespawning;
+            if (!isRespawning)
             {
-                Unpause();
-            }
-            else
-            {
-                Pause();
+                if (isPaused)
+                {
+                    Unpause();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
@@ -49,6 +56,21 @@ public class InGameMenu : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
         Unpause();
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Retry()
+    {
+        gameManager.GetComponent<HealthControl>().damagePlayer(2);
+        Cursor.lockState = CursorLockMode.Locked;
+        Unpause();
+    }
+
+    public void Restart()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+        Cursor.lockState = CursorLockMode.Locked;
+        Unpause();
     }
 
 }
