@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +8,9 @@ public class PlayerController : MonoBehaviour
     [Header("Player Controls")]
     [SerializeField]
     private float moveSpeed; // Controls how fast the player moves
+
+    [SerializeField]
+    private float originalMoveSpeed;
 
     [SerializeField]
     private float jumpHeight; // Controls how high the player jumps
@@ -27,6 +29,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Vector3 moveDirection; // Controls the direction the player moves in
+
+    [SerializeField]
+    private bool canDash;
+
+    [SerializeField]
+    private float dashDuration;
+
+    [SerializeField]
+    private float elapsedTime;
 
 
     //Variables related to 'Coyote Time'
@@ -135,6 +146,12 @@ public class PlayerController : MonoBehaviour
         // Applies the players upwards force and modifies it depending on gravity
         moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
 
+        // Allows for variable jump heights
+        if (Input.GetButtonDown("Dash") && canDash)
+        {
+            Dash();
+        }
+
         // Time.deltaTime is the time since the last frame e.g 60fps = 1/60s
         cc.Move(moveDirection * Time.deltaTime);
 
@@ -164,34 +181,63 @@ public class PlayerController : MonoBehaviour
           // Animation handling
         anim.SetBool("isFalling", CheckFalling());
         anim.SetBool("isGrounded", isGrounded());
+        anim.SetBool("isDashing", elapsedTime > 0 && elapsedTime < 0.2);
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+    }
+
+    public void Dash()
+    {
+        // Get the direction the player is facing
+        Vector3 playerForward = playerModel.transform.forward;
+        // Get the direction the camera is facing
+        Vector3 cameraForward = MainCamera.transform.forward;
+
+        //Apply the Cameras y direction to the player direction
+        playerForward.y = cameraForward.y;
+ 
+        
+        Vector3 dashDirection = (playerForward);
+
+        StartCoroutine(Dashing(dashDirection));
+    }
+
+    IEnumerator Dashing(Vector3 dashDirection)
+    {
+        canDash = false;
+        // Increase players velocity
+        moveSpeed = 23f;
+
+        // For the duration of the dash, move the player towards the dash direction
+        while (elapsedTime < dashDuration)
+        {
+            cc.Move(dashDirection * moveSpeed * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Restore the original move speed
+        elapsedTime = 0f;
+        moveSpeed = originalMoveSpeed;
     }
 
     bool CheckFalling()
     {
-        // Check if the player is grounded before considering them falling
-        if (!isGrounded())
-        {
-            // Player is only falling if they are moving down
-            bool isFalling = cc.velocity.y < (-9.81 * Time.deltaTime);
+        // Player is only falling if they are moving down
+        bool isFalling = cc.velocity.y < (-9.81 * Time.deltaTime);
 
-            // Returns the value of isFalling
-            if (isFalling)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+        // Check if the player isnt grounded and have negative y velocity
+        if (!isGrounded() && isFalling)
+        {
+            return true;
         }
         else
         {
             return false;
         }
+
     }
 
-    bool isGrounded()
+    public bool isGrounded()
     {
         // Define the edge points of the capsule
         Vector3[] edges = new Vector3[8];
@@ -223,6 +269,7 @@ public class PlayerController : MonoBehaviour
                     Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
 
                     anyEdgeGrounded = true;
+                    canDash = true;
                 }
             }
             else

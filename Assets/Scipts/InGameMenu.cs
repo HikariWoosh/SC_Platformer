@@ -14,6 +14,12 @@ public class InGameMenu : MonoBehaviour
 
     private bool isPaused = false;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -35,6 +41,7 @@ public class InGameMenu : MonoBehaviour
 
     public void Pause()
     {
+        Cursor.visible = true;
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
         gameCamera.GetComponent<CameraControl>().SetRotateSpeed(0); 
@@ -44,6 +51,7 @@ public class InGameMenu : MonoBehaviour
 
     public void Unpause()
     {
+        Cursor.visible = false;
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
         gameCamera.GetComponent<CameraControl>().SetRotateSpeed(1.5f);
@@ -55,22 +63,23 @@ public class InGameMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Main Menu");
         Unpause();
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Retry()
     {
         gameManager.GetComponent<HealthControl>().damagePlayer(2);
-        Cursor.lockState = CursorLockMode.Locked;
         Unpause();
     }
 
     public void Restart()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
+        Unpause();
         SceneManager.LoadScene(currentSceneName);
         Cursor.lockState = CursorLockMode.Locked;
-        Unpause();
+        Cursor.visible = false; 
     }
 
 }
