@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim; // Used to control animaiton 
 
     [SerializeField]
-    private GameObject crystals;
+    public Image StelCrystal;
 
 
     [Header("Camera Switching")]
@@ -220,7 +221,7 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         // Increase players velocity
 
-        //crystals.GetComponent<abilityCooldowns>().DashEffect();
+        StelCrystal.fillAmount = 0;
 
         moveSpeed = 23f;
 
@@ -230,6 +231,7 @@ public class PlayerController : MonoBehaviour
         {
             cc.Move(dashDirection * moveSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
+
             yield return null;
         }
 
@@ -237,20 +239,23 @@ public class PlayerController : MonoBehaviour
         elapsedTime = 0f;
         moveSpeed = originalMoveSpeed;
 
-        if (isGrounded())
-        {
-            yield return new WaitForSeconds(dashCooldown); // Cooldown for the players dash before checking for grounded.
-        }
-        else
-        {
-            // Ensures the player is grounded before re-enabling the dash
-            while (!isGrounded())
-            {
-                yield return null;
-            }
-        }
+        yield return new WaitUntil(() => isGrounded());
+        float cooldownTimer = 0f;
 
+        while (cooldownTimer < dashCooldown)
+        {
+            // Update fill amount based on cooldown progress
+            StelCrystal.fillAmount = cooldownTimer / dashCooldown;
+
+            cooldownTimer += Time.deltaTime;
+            yield return null;
+        }
+        
+
+        // Reset fill amount to 1 and enable dash
+        StelCrystal.fillAmount = 1;
         canDash = true;
+
     }
 
 

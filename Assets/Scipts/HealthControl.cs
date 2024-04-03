@@ -171,10 +171,7 @@ public class HealthControl : MonoBehaviour
         yield return new WaitForSeconds(waitFade); // Waits until the fade finishes
 
         // Resets the players dash if said co-routine was interuptted
-        playerCharacter.GetComponent<PlayerController>().canDash = true;
-        playerCharacter.GetComponent<PlayerController>().elapsedTime = 0;
-        playerCharacter.GetComponent<PlayerController>().moveSpeed = playerCharacter.GetComponent<PlayerController>().originalMoveSpeed;
-
+        dashRest();
 
         isRespawning = false;
         unFading = true;
@@ -188,5 +185,13 @@ public class HealthControl : MonoBehaviour
             checkpointSoundEffect.Play(); // Plays the checkpoint sound effect if its a new checkpoint
         }
         respawnPoint = newCheckpoint;
+    }
+
+    private void dashRest()
+    {
+        playerCharacter.GetComponent<PlayerController>().canDash = true;
+        playerCharacter.GetComponent<PlayerController>().elapsedTime = 0;
+        playerCharacter.GetComponent<PlayerController>().moveSpeed = playerCharacter.GetComponent<PlayerController>().originalMoveSpeed;
+        playerCharacter.GetComponent<PlayerController>().StelCrystal.fillAmount = 1;
     }
 }
