@@ -7,10 +7,10 @@ public class PlayerController : MonoBehaviour
     // Variables that control player movement
     [Header("Player Controls")]
     [SerializeField]
-    private float moveSpeed; // Controls how fast the player moves
+    public float moveSpeed; // Controls how fast the player moves
 
     [SerializeField]
-    private float originalMoveSpeed;
+    public float originalMoveSpeed;
 
     [SerializeField]
     private float jumpHeight; // Controls how high the player jumps
@@ -30,14 +30,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector3 moveDirection; // Controls the direction the player moves in
 
+
+
+    [Header("Dash Settings")]
     [SerializeField]
-    private bool canDash;
+    public bool canDash;
 
     [SerializeField]
-    private float dashDuration;
+    public float dashDuration;
 
     [SerializeField]
-    private float elapsedTime;
+    public float elapsedTime;
+
+    [SerializeField]
+    private float dashCooldown;
 
 
     //Variables related to 'Coyote Time'
@@ -59,6 +65,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator anim; // Used to control animaiton 
 
+    [SerializeField]
+    private GameObject crystals;
+
 
     [Header("Camera Switching")]
     [SerializeField]
@@ -73,16 +82,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioSource jumpSoundEffect;
 
+    [SerializeField]
+    private AudioSource dashSoundEffect;
+
 
     // Start is called before the first frame update
     void Start()
     {
         cc = gameObject.GetComponent<CharacterController>(); // Assigns the character controller component to the variable 'cc'
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (cc.isGrounded)
         {
             moveDirection.y = 0;
@@ -146,7 +160,7 @@ public class PlayerController : MonoBehaviour
         // Applies the players upwards force and modifies it depending on gravity
         moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
 
-        // Allows for variable jump heights
+        // Allows user to dash
         if (Input.GetButtonDown("Dash") && canDash)
         {
             Dash();
@@ -169,7 +183,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // If the player is moving, calculate new rotation
-            if (moveDirection != Vector3.zero)
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 // Rotation is created and applied using Quaternion.Slerp (Linear interpolation for rotation) for a smoothing effect
                 Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
@@ -192,21 +206,25 @@ public class PlayerController : MonoBehaviour
         // Get the direction the camera is facing
         Vector3 cameraForward = MainCamera.transform.forward;
 
-        //Apply the Cameras y direction to the player direction
+        // Apply the Camera's y direction to the player direction
         playerForward.y = cameraForward.y;
- 
-        
+
         Vector3 dashDirection = (playerForward);
 
         StartCoroutine(Dashing(dashDirection));
+
     }
 
     IEnumerator Dashing(Vector3 dashDirection)
     {
         canDash = false;
         // Increase players velocity
+
+        //crystals.GetComponent<abilityCooldowns>().DashEffect();
+
         moveSpeed = 23f;
 
+        dashSoundEffect.Play();
         // For the duration of the dash, move the player towards the dash direction
         while (elapsedTime < dashDuration)
         {
@@ -218,7 +236,24 @@ public class PlayerController : MonoBehaviour
         // Restore the original move speed
         elapsedTime = 0f;
         moveSpeed = originalMoveSpeed;
+
+        if (isGrounded())
+        {
+            yield return new WaitForSeconds(dashCooldown); // Cooldown for the players dash before checking for grounded.
+        }
+        else
+        {
+            // Ensures the player is grounded before re-enabling the dash
+            while (!isGrounded())
+            {
+                yield return null;
+            }
+        }
+
+        canDash = true;
     }
+
+
 
     bool CheckFalling()
     {
@@ -269,7 +304,6 @@ public class PlayerController : MonoBehaviour
                     Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
 
                     anyEdgeGrounded = true;
-                    canDash = true;
                 }
             }
             else

@@ -139,10 +139,11 @@ public class CameraControl : MonoBehaviour
 
             if (Physics.Linecast(target.position, desiredPosition, out hit, ignoreLayerMask))
             {
-                // If a collision occurs with anything except the player, set camera position to hit point
-                transform.position = hit.point;
-            }
+                Vector3 collisionNormalOffset = hit.normal * 0.1f; 
 
+                // If a collision occurs with anything except the player, set camera position to hit point
+                transform.position = hit.point + collisionNormalOffset;
+            }
             else
             {
                 // If no collision, set camera position as desired position
@@ -150,11 +151,12 @@ public class CameraControl : MonoBehaviour
             }
 
 
-            // Prevents the camera from flipping
-            if (transform.position.y < target.position.y)
-            {
-                transform.position = new Vector3(transform.position.x, target.position.y - 0.9f, transform.position.z);
-            }
+
+            //// Prevents the camera from flipping
+            //if (transform.position.y < target.position.y)
+            //{
+            //    transform.position = new Vector3(transform.position.x, target.position.y - 0.9f, transform.position.z);
+            //}
 
 
             // Makes the camera look at the player

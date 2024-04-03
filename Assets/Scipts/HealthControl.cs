@@ -11,7 +11,7 @@ public class HealthControl : MonoBehaviour
     private int maxHealth; // Used to set the users max health
 
     [SerializeField]
-    private int Health; // Used to control the users current health
+    public int Health; // Used to control the users current health
 
     [SerializeField]
     private PlayerController playerCharacter; // Refers to the players PlayerController
@@ -46,6 +46,7 @@ public class HealthControl : MonoBehaviour
 
     [SerializeField]
     private float waitFade; // How long it should take to fade in and out
+
 
 
     [Header("Sound Effects")]
@@ -168,6 +169,13 @@ public class HealthControl : MonoBehaviour
         charControl.enabled = true; // Re-enables the players character controller to allow them to move again
 
         yield return new WaitForSeconds(waitFade); // Waits until the fade finishes
+
+        // Resets the players dash if said co-routine was interuptted
+        playerCharacter.GetComponent<PlayerController>().canDash = true;
+        playerCharacter.GetComponent<PlayerController>().elapsedTime = 0;
+        playerCharacter.GetComponent<PlayerController>().moveSpeed = playerCharacter.GetComponent<PlayerController>().originalMoveSpeed;
+
+
         isRespawning = false;
         unFading = true;
     }
@@ -181,5 +189,4 @@ public class HealthControl : MonoBehaviour
         }
         respawnPoint = newCheckpoint;
     }
-
 }
