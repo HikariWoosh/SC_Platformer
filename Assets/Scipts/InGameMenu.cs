@@ -12,7 +12,7 @@ public class InGameMenu : MonoBehaviour
     [SerializeField]
     private GameObject gameManager;
 
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     private void Start()
     {
@@ -53,7 +53,15 @@ public class InGameMenu : MonoBehaviour
     {
         Cursor.visible = false;
         pauseMenu.SetActive(false);
-        Time.timeScale = 1;
+
+        if (gameManager.GetComponent<timeSlow>().isTimeSlow) {
+            Time.timeScale = 0.5f;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+        
         gameCamera.GetComponent<CameraControl>().SetRotateSpeed(1.5f);
         Cursor.lockState = CursorLockMode.Locked;
         isPaused = false;

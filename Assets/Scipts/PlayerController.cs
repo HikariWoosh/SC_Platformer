@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed; // Controls how fast the player moves
 
     [SerializeField]
-    public float originalMoveSpeed;
+    public float originalMoveSpeed; // Reference to the players base movespeed
 
     [SerializeField]
     private float jumpHeight; // Controls how high the player jumps
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private float gravity; // Effects how fast the player falls in the air
 
     [SerializeField]
-    private float gravitySpeed; // Used to control how strongly gravity is applied to the player
+    public float gravitySpeed; // Used to control how strongly gravity is applied to the player
 
     [SerializeField]
     private float rotateSpeed; // Controls how quickly the player model turns in different directions
@@ -35,16 +35,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash Settings")]
     [SerializeField]
-    public bool canDash;
+    public bool canDash; // Bool to control the players ability to dash
 
     [SerializeField]
-    public float dashDuration;
+    public float dashDuration; // Controls the duration of a dash e.g how far it goes
 
     [SerializeField]
-    public float elapsedTime;
+    public float elapsedTime; // Measures how much time has passed during a dash
 
     [SerializeField]
-    private float dashCooldown;
+    private float dashCooldown; // Cooldown value between dashes
 
 
     //Variables related to 'Coyote Time'
@@ -67,24 +67,27 @@ public class PlayerController : MonoBehaviour
     private Animator anim; // Used to control animaiton 
 
     [SerializeField]
+    private GameObject UI;
+
+    [SerializeField]
     public Image StelCrystal;
 
 
     [Header("Camera Switching")]
     [SerializeField]
-    private Camera MainCamera;
+    private Camera MainCamera; // Main 3D Camera
 
     [SerializeField]
-    private Camera Camera2D;
+    private Camera Camera2D; // Main 2D Camera
 
     private CharacterController cc; // The character controller component is declared here
 
     [Header("Sound Effects")]
     [SerializeField]
-    private AudioSource jumpSoundEffect;
+    private AudioSource jumpSoundEffect; // Jumping sound effect
 
     [SerializeField]
-    private AudioSource dashSoundEffect;
+    private AudioSource dashSoundEffect; // Dashing sound effect
 
 
     // Start is called before the first frame update
@@ -162,7 +165,7 @@ public class PlayerController : MonoBehaviour
         moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
 
         // Allows user to dash
-        if (Input.GetButtonDown("Dash") && canDash)
+        if (Input.GetButtonDown("Dash") && canDash && !UI.GetComponent<InGameMenu>().isPaused)
         {
             Dash();
         }
@@ -219,13 +222,13 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dashing(Vector3 dashDirection)
     {
         canDash = false;
-        // Increase players velocity
 
         StelCrystal.fillAmount = 0;
 
         moveSpeed = 23f;
 
         dashSoundEffect.Play();
+
         // For the duration of the dash, move the player towards the dash direction
         while (elapsedTime < dashDuration)
         {
@@ -239,6 +242,7 @@ public class PlayerController : MonoBehaviour
         elapsedTime = 0f;
         moveSpeed = originalMoveSpeed;
 
+        // Waits until the user is grounded before starting the cooldown period
         yield return new WaitUntil(() => isGrounded());
         float cooldownTimer = 0f;
 
@@ -246,7 +250,6 @@ public class PlayerController : MonoBehaviour
         {
             // Update fill amount based on cooldown progress
             StelCrystal.fillAmount = cooldownTimer / dashCooldown;
-
             cooldownTimer += Time.deltaTime;
             yield return null;
         }

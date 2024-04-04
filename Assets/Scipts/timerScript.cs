@@ -16,6 +16,7 @@ public class timerScript : MonoBehaviour
     [SerializeField]
     private TMP_Text MstimeText;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,10 @@ public class timerScript : MonoBehaviour
     {
         if (timeOn)
         {
-            time += Time.deltaTime;
+
+           time += Time.deltaTime;
+
+
             if (time >= 3599998.000) // Check if time exceeds the limit
             {
                 time = 3599998.000; // Set time to the limit
@@ -44,6 +48,7 @@ public class timerScript : MonoBehaviour
     void updateTime(float timeAmount)
     {
         timeAmount += 1;
+
         double hours = Mathf.FloorToInt(timeAmount / 3600);
         double minutes = Mathf.FloorToInt((timeAmount % 3600) / 60);
         double seconds = Mathf.FloorToInt(timeAmount % 60);
