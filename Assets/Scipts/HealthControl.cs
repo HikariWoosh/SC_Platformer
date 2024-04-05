@@ -30,6 +30,9 @@ public class HealthControl : MonoBehaviour
     [SerializeField]
     private GameObject deathParticles; // Particles that are emitted upon death
 
+    [SerializeField]
+    private CharacterController charControl;
+
 
     [Header("Fading")]
     [SerializeField]
@@ -74,6 +77,8 @@ public class HealthControl : MonoBehaviour
         deathText.text = string.Format("x {0}", deaths); // Sets death text to 0
 
         respawnPoint = playerCharacter.transform.position; // Sets the players respawn point to were they begin
+
+        charControl = FindAnyObjectByType<CharacterController>();
     }
 
     // Update is called once per frame
@@ -160,7 +165,7 @@ public class HealthControl : MonoBehaviour
         playerCharacter.gameObject.SetActive(true);
 
         // Disables the CharacterController to allow the respawn to reposition the player
-        CharacterController charControl = playerCharacter.GetComponent<CharacterController>();
+
         charControl.enabled = false;
 
         playerCharacter.transform.position = respawnPoint; // Set player position to respawn point 

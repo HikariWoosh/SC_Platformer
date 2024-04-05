@@ -41,36 +41,39 @@ public class timeSlow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (slowTimeUnlocked && Input.GetButtonDown("SlowTime") && !UI.GetComponent<InGameMenu>().isPaused)
+        if (slowTimeUnlocked && !UI.GetComponent<InGameMenu>().isPaused)
         {
+            if (Input.GetButtonDown("SlowTime"))
+            {
+                if (isTimeSlow)
+                {
+                    UnSlowTime();
+                }
+                else
+                {
+                    SlowTime();
+                }
+            }
+
             if (isTimeSlow)
             {
-                UnSlowTime();
+                timeSlowDuration -= 0.05f;
+                if (timeSlowDuration <= 0f)
+                {
+                    UnSlowTime();
+                }
             }
             else
             {
-                SlowTime();
-            }
-        }
+                if (timeSlowDuration <= timeSlowMax)
+                {
+                    timeSlowDuration += 0.01f;
+                }
 
-        if (isTimeSlow)
-        {
-            timeSlowDuration -= 0.05f;
-            if (timeSlowDuration <= 0f)
-            {
-                UnSlowTime();
             }
-        }
-        else
-        {
-            if (timeSlowDuration <= 5.0f)
-            {
-                timeSlowDuration += 0.01f;
-            }
-        }
 
-        EosCrystal.fillAmount = timeSlowDuration / timeSlowMax;
-
+            EosCrystal.fillAmount = timeSlowDuration / timeSlowMax;
+        }
 
     }
 

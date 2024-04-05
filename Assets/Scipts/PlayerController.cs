@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector3 moveDirection; // Controls the direction the player moves in
 
+    [SerializeField]
+    private bool onGround;
+
 
 
     [Header("Dash Settings")]
@@ -80,7 +83,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Camera Camera2D; // Main 2D Camera
 
+
+    [Header("Cache")]
+
     private CharacterController cc; // The character controller component is declared here
+
+    private float capsuleRadius;
+
+    private LayerMask CheckpointsLayer;
+
 
     [Header("Sound Effects")]
     [SerializeField]
@@ -94,7 +105,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cc = gameObject.GetComponent<CharacterController>(); // Assigns the character controller component to the variable 'cc'
-        
+        capsuleRadius = gameObject.GetComponent<CapsuleCollider>().radius;
+        CheckpointsLayer = LayerMask.NameToLayer("Checkpoints");
+
     }
 
     // Update is called once per frame
@@ -109,15 +122,17 @@ public class PlayerController : MonoBehaviour
         // Update coyote time counter
         if (isGrounded())
         {
+            onGround = true;
             coyoteTimeCounter = coyoteTimeDuration;
         }
         else
         {
+            onGround = false;
             coyoteTimeCounter -= Time.deltaTime;
         }
 
         // Check for jump including coyote time
-        if ((coyoteTimeCounter > 0 || isGrounded()) && Input.GetButtonDown("Jump"))
+        if ((coyoteTimeCounter > 0 || onGround) && Input.GetButtonDown("Jump"))
         {
             moveDirection.y = jumpHeight;
             jumpSoundEffect.Play();
@@ -144,7 +159,7 @@ public class PlayerController : MonoBehaviour
         // Check for jump
         moveDirection.y = yStore;
         // Allowing jump only if grounded and coyote time is over
-        if (isGrounded() && coyoteTimeCounter <= 0)
+        if (onGround && coyoteTimeCounter <= 0)
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -198,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
           // Animation handling
         anim.SetBool("isFalling", CheckFalling());
-        anim.SetBool("isGrounded", isGrounded());
+        anim.SetBool("isGrounded", onGround);
         anim.SetBool("isDashing", elapsedTime > 0 && elapsedTime < 0.2);
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
     }
@@ -285,7 +300,6 @@ public class PlayerController : MonoBehaviour
         // Define the edge points of the capsule
         Vector3[] edges = new Vector3[8];
         Vector3 capsuleCenter = transform.position;
-        float capsuleRadius = GetComponent<CapsuleCollider>().radius;
 
         // Calculate the positions of the edges
         edges[0] = capsuleCenter + Vector3.right * capsuleRadius; // North
@@ -306,7 +320,7 @@ public class PlayerController : MonoBehaviour
             {
           
                 // Check if the hit object is not on the "Checkpoint" layer
-                if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Checkpoints"))
+                if (hit.collider.gameObject.layer != CheckpointsLayer)
                 {
                     // Visualize the raycast
                     Debug.DrawRay(edge, Vector3.down * distToGround, Color.green);
