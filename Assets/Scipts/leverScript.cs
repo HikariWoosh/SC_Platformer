@@ -45,6 +45,12 @@ public class leverScript : MonoBehaviour
     private SphereCollider Collision;
 
     [SerializeField]
+    private GameObject Open;
+
+    [SerializeField]
+    private GameObject Close;
+
+    [SerializeField]
     private Animator anim; // Used to control animaiton 
 
 
@@ -83,6 +89,8 @@ public class leverScript : MonoBehaviour
         {
             Debug.Log("Player pressed the 'E' key.");
             anim.SetTrigger("Pulled");
+            TwoDLever.transform.rotation *= Quaternion.Euler(0, 180, 0);
+            Close.SetActive(false);
             Pulled = false;
             leverUsed = true;
         }
