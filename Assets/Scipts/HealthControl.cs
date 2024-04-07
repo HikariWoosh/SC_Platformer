@@ -39,10 +39,10 @@ public class HealthControl : MonoBehaviour
     private Image blackScreen; // An image of a black screen used to emulate a fading effect
 
     [SerializeField]
-    private bool isFading; // isFading variable to control when the fading effect beings
+    public bool isFading; // isFading variable to control when the fading effect beings
 
     [SerializeField]
-    private bool unFading; // unFading variable to control when the fading effect ends
+    public bool unFading; // unFading variable to control when the fading effect ends
 
     [SerializeField]
     private float fadeSpeed; // How fast the black screen fades 
@@ -179,6 +179,17 @@ public class HealthControl : MonoBehaviour
         dashRest();
 
         isRespawning = false;
+        unFading = true;
+    }
+
+    public IEnumerator Fade()
+    {
+        Debug.Log("Check");
+
+        isFading = true;
+
+        yield return new WaitForSeconds(waitFade); // Waits until the fade begins
+
         unFading = true;
     }
 

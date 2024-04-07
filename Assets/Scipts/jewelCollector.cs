@@ -11,6 +11,9 @@ public class jewelCollector : MonoBehaviour
     private JewelManager jewelManager;
 
     [SerializeField]
+    private jewelGUI jewelGUI;
+
+    [SerializeField]
     private SphereCollider SphereCollider;
 
     [SerializeField]
@@ -22,6 +25,7 @@ public class jewelCollector : MonoBehaviour
     void Start()
     {
         jewelManager = FindAnyObjectByType<JewelManager>(); // Caches the jewel manager
+        jewelGUI = FindAnyObjectByType<jewelGUI>();
     }
 
     private void OnTriggerStay(Collider other)
@@ -30,6 +34,7 @@ public class jewelCollector : MonoBehaviour
         {
             Jewel.SetActive(false);
             jewelManager.jewelCollected(Jewel);
+            jewelGUI.SlotSelect();
 
             GameObject Particles = Instantiate(collectParticles, Jewel.transform.position, Jewel.transform.rotation);
             Destroy(Particles, 1f);

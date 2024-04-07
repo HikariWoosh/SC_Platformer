@@ -16,6 +16,9 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private Transform horizontalPivot; // The horizontal camera pivot ('HPivot')
 
+    [SerializeField]
+    private HealthControl healthControl;
+
 
     [Header("Camera Controls")]
     [SerializeField]
@@ -41,6 +44,9 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private Camera Camera2D; // Field for the 2d camera
 
+    [SerializeField]
+    private GameObject CameraRender2D;
+
     private Vector3 MainStored; // Variable to store the position of the 3d camera
 
 
@@ -63,6 +69,7 @@ public class CameraControl : MonoBehaviour
         verticalPivot.transform.parent = horizontalPivot.transform;
         horizontalPivot.transform.parent = null;
 
+        healthControl = FindAnyObjectByType<HealthControl>();
 
         // Makes it so the cursor cannot be seen during gameplay
         Cursor.lockState = CursorLockMode.Locked;
@@ -139,7 +146,7 @@ public class CameraControl : MonoBehaviour
 
             if (Physics.Linecast(target.position, desiredPosition, out hit, ignoreLayerMask))
             {
-                Vector3 collisionNormalOffset = hit.normal * 0.1f; 
+                Vector3 collisionNormalOffset = hit.normal * 0.1f;
 
                 // If a collision occurs with anything except the player, set camera position to hit point
                 transform.position = hit.point + collisionNormalOffset;
@@ -149,15 +156,6 @@ public class CameraControl : MonoBehaviour
                 // If no collision, set camera position as desired position
                 transform.position = desiredPosition;
             }
-
-
-
-            //// Prevents the camera from flipping
-            //if (transform.position.y < target.position.y)
-            //{
-            //    transform.position = new Vector3(transform.position.x, target.position.y - 0.9f, transform.position.z);
-            //}
-
 
             // Makes the camera look at the player
             transform.LookAt(target);
@@ -172,20 +170,26 @@ public class CameraControl : MonoBehaviour
     // Function to switch the camera to a 2d view
     public void Show2DView()
     {
-        // If already in 2d then switch back to 3d and vice versa
+        StartCoroutine(Show2DViewCoroutine());
+    }
+
+    private IEnumerator Show2DViewCoroutine()
+    {
+        yield return StartCoroutine(healthControl.Fade());
+
+        // If already in 2D then switch back to 3D and vice versa
         if (MainCamera.enabled == true)
         {
-            MainStored = MainCamera.transform.position; // Stores the main cameras position
-            MainCamera.transform.position = Camera2D.transform.position; // Stores the main camera at the 2d cameras location
             transform.LookAt(target); // Makes the camera look at the player
-            MainCamera.enabled = false; 
-            Camera2D.enabled = true; 
+            MainCamera.enabled = false;
+            Camera2D.enabled = true;
+            CameraRender2D.SetActive(true);
         }
         else
         {
-            MainCamera.enabled = true; 
+            MainCamera.enabled = true;
             Camera2D.enabled = false;
-            MainCamera.transform.position = MainStored; // Repositions the camera to its previous position
+            CameraRender2D.SetActive(false);
         }
     }
 }
