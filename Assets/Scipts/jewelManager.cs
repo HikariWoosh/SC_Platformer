@@ -8,10 +8,13 @@ public class JewelManager : MonoBehaviour
     private List<GameObject> jewels = new List<GameObject>();
 
     [SerializeField]
-    private int maxJewelCount;
+    public int maxJewelCount;
 
     [SerializeField]
     private int jewelCount;
+
+    [SerializeField]
+    private AudioSource collectSound;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +34,11 @@ public class JewelManager : MonoBehaviour
     {
         if (Collected != null && jewels.Contains(Collected))
         {
+            collectSound.Play();
+
             jewels.Remove(Collected);
             Destroy(Collected); // Remove the GameObject from the scene
+
             jewelCount = jewels.Count;
         }
 

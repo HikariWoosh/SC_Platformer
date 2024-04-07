@@ -19,26 +19,20 @@ public class jewelCollector : MonoBehaviour
     [SerializeField]
     private GameObject collectParticles;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        jewelManager = FindAnyObjectByType<JewelManager>(); // Finds the health controller
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        jewelManager = FindAnyObjectByType<JewelManager>(); // Caches the jewel manager
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag.Equals("Player") && !isCollected)
         {
-            GameObject Particles = Instantiate(collectParticles, Jewel.transform.position, Jewel.transform.rotation);
             Jewel.SetActive(false);
             jewelManager.jewelCollected(Jewel);
+
+            GameObject Particles = Instantiate(collectParticles, Jewel.transform.position, Jewel.transform.rotation);
+            Destroy(Particles, 1f);
         }
     }
 }
