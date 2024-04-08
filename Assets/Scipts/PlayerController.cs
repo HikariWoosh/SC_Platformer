@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dashCooldown; // Cooldown value between dashes
 
+    [SerializeField]
+    private float cooldownTimer;
+
 
     //Variables related to 'Coyote Time'
     [Header("Coyote Time Settings")]
@@ -244,6 +247,8 @@ public class PlayerController : MonoBehaviour
 
         dashSoundEffect.Play();
 
+        StartCoroutine(DashCooldown());
+
         // For the duration of the dash, move the player towards the dash direction
         while (elapsedTime < dashDuration)
         {
@@ -257,18 +262,25 @@ public class PlayerController : MonoBehaviour
         elapsedTime = 0f;
         moveSpeed = originalMoveSpeed;
 
+    }
+
+    IEnumerator DashCooldown()
+    {
         // Waits until the user is grounded before starting the cooldown period
-        yield return new WaitUntil(() => isGrounded());
-        float cooldownTimer = 0f;
+        StartCoroutine(DashCooldownGrounded());
+        
+        cooldownTimer = 0f;
 
         while (cooldownTimer < dashCooldown)
         {
+            Debug.Log("HI");
             // Update fill amount based on cooldown progress
             StelCrystal.fillAmount = cooldownTimer / dashCooldown;
             cooldownTimer += Time.deltaTime;
             yield return null;
         }
-        
+
+        yield return new WaitForSeconds(dashCooldown);
 
         // Reset fill amount to 1 and enable dash
         StelCrystal.fillAmount = 1;
@@ -276,6 +288,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    IEnumerator DashCooldownGrounded()
+    {
+        if (!onGround)
+        {
+            yield return new WaitUntil(() => onGround);
+
+            // Reset fill amount to 1 and enable dash
+            StelCrystal.fillAmount = 1;
+            cooldownTimer = 5;
+            canDash = true;
+
+        }
+    }
 
 
     bool CheckFalling()
