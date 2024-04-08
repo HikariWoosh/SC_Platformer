@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dashCooldown; // Cooldown value between dashes
 
+    [SerializeField]
+    private float cooldownTimer;
+
 
     //Variables related to 'Coyote Time'
     [Header("Coyote Time Settings")]
@@ -211,7 +214,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-          // Animation handling
+        // Animation handling
         anim.SetBool("isFalling", CheckFalling());
         anim.SetBool("isGrounded", onGround);
         anim.SetBool("isDashing", elapsedTime > 0 && elapsedTime < 0.2);
@@ -263,13 +266,14 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DashCooldown()
     {
+        cooldownTimer = 0f;
+
         // Waits until the user is grounded before starting the cooldown period
         StartCoroutine(DashCooldownGrounded());
-        yield return new WaitForSeconds(dashCooldown);
-        
-        float cooldownTimer = 0f;
 
-        while (cooldownTimer < dashCooldown)
+        yield return new WaitForSeconds(dashCooldown);
+
+        while (cooldownTimer < dashCooldown && cooldownTimer != 5)
         {
             // Update fill amount based on cooldown progress
             StelCrystal.fillAmount = cooldownTimer / dashCooldown;
@@ -277,10 +281,12 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-
         // Reset fill amount to 1 and enable dash
-        StelCrystal.fillAmount = 1;
-        canDash = true;
+        if (!canDash)
+        {
+            StelCrystal.fillAmount = 1;
+            canDash = true;
+        }
 
     }
 
@@ -292,9 +298,9 @@ public class PlayerController : MonoBehaviour
 
             // Reset fill amount to 1 and enable dash
             StelCrystal.fillAmount = 1;
+            cooldownTimer = 5;
             canDash = true;
 
-            Debug.Log("WAVEDASH");
         }
     }
 
@@ -339,7 +345,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(edge, Vector3.down, out hit, distToGround))
             {
-          
+
                 // Check if the hit object is not on the "Checkpoint" layer
                 if (hit.collider.gameObject.layer != CheckpointsLayer)
                 {
