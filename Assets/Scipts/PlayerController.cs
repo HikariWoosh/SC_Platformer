@@ -116,109 +116,130 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (cc.isGrounded)
+        if (cc.enabled)
         {
-            moveDirection.y = 0;
-        }
 
-        // Update coyote time counter
-        if (isGrounded())
-        {
-            onGround = true;
-            coyoteTimeCounter = coyoteTimeDuration;
-        }
-        else
-        {
-            onGround = false;
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        // Check for jump including coyote time
-        if ((coyoteTimeCounter > 0 || onGround) && Input.GetButtonDown("Jump"))
-        {
-            moveDirection.y = jumpHeight;
-            jumpSoundEffect.Play();
-            coyoteTimeCounter = 0; // Reset coyote time counter when jump is executed
-        }
-
-        // Store the current y direction, this is to avoid it being normalized.
-        float yStore = moveDirection.y;
-
-        // Controls movement
-        if (MainCamera.enabled)
-        {
-            // If MainCamera is enabled, movement depends on camera orientation
-            moveDirection = (Pivot.forward * Input.GetAxisRaw("Vertical")) + (Pivot.right * Input.GetAxisRaw("Horizontal"));
-        }
-        else if (Camera2D.enabled)
-        {
-            // If Camera2D is enabled, movement is fixed along world axis
-            moveDirection = (Vector3.forward * Input.GetAxisRaw("Horizontal")) + (-Vector3.right * Input.GetAxisRaw("Vertical"));
-        }
-
-        moveDirection = moveDirection.normalized * moveSpeed;
-
-        // Check for jump
-        moveDirection.y = yStore;
-        // Allowing jump only if grounded and coyote time is over
-        if (onGround && coyoteTimeCounter <= 0)
-        {
-            if (Input.GetButtonDown("Jump"))
+            if (cc.isGrounded)
             {
-                // Uses the jumpHeight variable to tell the character where they should move to on the Y
+                moveDirection.y = 0;
+            }
+
+            // Update coyote time counter
+            if (isGrounded())
+            {
+                onGround = true;
+                coyoteTimeCounter = coyoteTimeDuration;
+            }
+            else
+            {
+                onGround = false;
+                coyoteTimeCounter -= Time.deltaTime;
+            }
+
+            // Check for jump including coyote time
+            if ((coyoteTimeCounter > 0 || onGround) && Input.GetButtonDown("Jump"))
+            {
                 moveDirection.y = jumpHeight;
                 jumpSoundEffect.Play();
+                coyoteTimeCounter = 0; // Reset coyote time counter when jump is executed
             }
-        }
 
-        // Allows for variable jump heights
-        if (Input.GetButtonUp("Jump") && moveDirection.y > 0f)
-        {
-            // Uses the jumpHeight variable to tell the character where they should move to on the Y
-            moveDirection.y = moveDirection.y * .5f;
-        }
+            // Store the current y direction, this is to avoid it being normalized.
+            float yStore = moveDirection.y;
 
-        // Applies the players upwards force and modifies it depending on gravity
-        moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
-
-        // Allows user to dash
-        if (Input.GetButtonDown("Dash") && canDash && !UI.GetComponent<InGameMenu>().isPaused)
-        {
-            Dash();
-        }
-
-        // Time.deltaTime is the time since the last frame e.g 60fps = 1/60s
-        cc.Move(moveDirection * Time.deltaTime);
-
-        //If the player is moving make them face the correct direction
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
+            // Controls movement
             if (MainCamera.enabled)
             {
-                transform.rotation = Quaternion.Euler(0f, Pivot.rotation.eulerAngles.y, 0f);
+                // If MainCamera is enabled, movement depends on camera orientation
+                moveDirection = (Pivot.forward * Input.GetAxisRaw("Vertical")) + (Pivot.right * Input.GetAxisRaw("Horizontal"));
             }
             else if (Camera2D.enabled)
             {
-                // If Camera2D is enabled, keep the player's rotation aligned with the world
-                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                // If Camera2D is enabled, movement is fixed along world axis
+                moveDirection = (Vector3.forward * Input.GetAxisRaw("Horizontal")) + (-Vector3.right * Input.GetAxisRaw("Vertical"));
             }
 
-            // If the player is moving, calculate new rotation
+            moveDirection = moveDirection.normalized * moveSpeed;
+
+            // Check for jump
+            moveDirection.y = yStore;
+            // Allowing jump only if grounded and coyote time is over
+            if (onGround && coyoteTimeCounter <= 0)
+            {
+                if (Input.GetButtonDown("Jump"))
+                {
+                    // Uses the jumpHeight variable to tell the character where they should move to on the Y
+                    moveDirection.y = jumpHeight;
+                    jumpSoundEffect.Play();
+                }
+            }
+
+            // Allows for variable jump heights
+            if (Input.GetButtonUp("Jump") && moveDirection.y > 0f)
+            {
+                // Uses the jumpHeight variable to tell the character where they should move to on the Y
+                moveDirection.y = moveDirection.y * .5f;
+            }
+
+            // Applies the players upwards force and modifies it depending on gravity
+            moveDirection.y += gravity * gravitySpeed * Time.deltaTime;
+
+            // Allows user to dash
+            if (Input.GetButtonDown("Dash") && canDash && !UI.GetComponent<InGameMenu>().isPaused)
+            {
+                Dash();
+            }
+
+            // Time.deltaTime is the time since the last frame e.g 60fps = 1/60s
+            cc.Move(moveDirection * Time.deltaTime);
+
+            //If the player is moving make them face the correct direction
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
-                // Rotation is created and applied using Quaternion.Slerp (Linear interpolation for rotation) for a smoothing effect
-                Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
-                playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
+                if (MainCamera.enabled)
+                {
+                    transform.rotation = Quaternion.Euler(0f, Pivot.rotation.eulerAngles.y, 0f);
+                }
+                else if (Camera2D.enabled)
+                {
+                    // If Camera2D is enabled, keep the player's rotation aligned with the world
+                    transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                }
+
+                // If the player is moving, calculate new rotation
+                if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+                {
+                    // Rotation is created and applied using Quaternion.Slerp (Linear interpolation for rotation) for a smoothing effect
+                    Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+                    playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
+                }
+
+
             }
+
+            //If the player is moving make them face the correct direction
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 && moveSpeed < originalMoveSpeed)
+            {
+                if (moveSpeed < 18)
+                {
+                    moveSpeed += 0.4f;
+                }
+            }
+            else
+            {
+                if (moveSpeed > 5)
+                {
+                    moveSpeed -= 0.4f;
+                }
+            }
+
+
+            // Animation handling
+            anim.SetBool("isFalling", CheckFalling());
+            anim.SetBool("isGrounded", onGround);
+            anim.SetBool("isDashing", elapsedTime > 0 && elapsedTime < 0.2);
+            anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
         }
-
-
-        // Animation handling
-        anim.SetBool("isFalling", CheckFalling());
-        anim.SetBool("isGrounded", onGround);
-        anim.SetBool("isDashing", elapsedTime > 0 && elapsedTime < 0.2);
-        anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
     }
 
     public void Dash()

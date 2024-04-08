@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35581762, g: 0.7477732, b: 0.8039416, a: 1}
+  m_IndirectSpecularColor: {r: 0.35600066, g: 0.7479409, b: 0.8040291, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4754,6 +4754,7 @@ MonoBehaviour:
   target: {fileID: 880346571}
   verticalPivot: {fileID: 491413011}
   horizontalPivot: {fileID: 1001620414}
+  healthControl: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   rotateSpeed: 1.5
   maxView: 60
@@ -6613,11 +6614,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2c7c948b92da14b92a63b7c3e61683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  originalMoveSpeed: 20
+  moveSpeed: 5
+  originalMoveSpeed: 18
   jumpHeight: 25
   gravity: -9.81
-  gravitySpeed: 4
+  gravitySpeed: 5
   rotateSpeed: 10
   distToGround: 1.2
   moveDirection: {x: 0, y: 0, z: 0}
@@ -6626,6 +6627,7 @@ MonoBehaviour:
   dashDuration: 0.25
   elapsedTime: 0
   dashCooldown: 0.5
+  cooldownTimer: 0
   coyoteTimeDuration: 0.2
   coyoteTimeCounter: 0
   playerModel: {fileID: 1675916452}
@@ -10752,6 +10754,7 @@ MonoBehaviour:
   unFading: 0
   fadeSpeed: 2
   waitFade: 0.5
+  Transition: 0
   deathSoundEffect: {fileID: 1280355576}
   checkpointSoundEffect: {fileID: 1280355577}
   deathText: {fileID: 1061167772}

@@ -170,7 +170,10 @@ public class CameraControl : MonoBehaviour
     // Function to switch the camera to a 2d view
     public void Show2DView()
     {
-        StartCoroutine(Show2DViewCoroutine());
+        if (!healthControl.Transition && healthControl.Health > 0)
+        {
+            StartCoroutine(Show2DViewCoroutine());
+        }
     }
 
     private IEnumerator Show2DViewCoroutine()

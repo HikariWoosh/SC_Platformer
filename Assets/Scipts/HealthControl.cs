@@ -50,6 +50,9 @@ public class HealthControl : MonoBehaviour
     [SerializeField]
     private float waitFade; // How long it should take to fade in and out
 
+    [SerializeField]
+    public bool Transition;
+
 
 
     [Header("Sound Effects")]
@@ -86,21 +89,25 @@ public class HealthControl : MonoBehaviour
     {
         if (isFading)
         {
+            Transition = true;
             // Alters the alpha value of the black screen to simulate a fade out effect, the closer to 1f the closer the alpha value is to 255
             blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
             if(blackScreen.color.a == 1f)
             {
                 isFading = false;
+                Transition = false;
             }
         }
 
         // Alters the alpha value of the black screen to simulate a fade in effect
         if (unFading)
         {
+            Transition = true;
             blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
             if (blackScreen.color.a == 0f)
             {
                 unFading = false;
+                Transition = false;
             }
         }
     }
@@ -171,9 +178,11 @@ public class HealthControl : MonoBehaviour
         playerCharacter.transform.position = respawnPoint; // Set player position to respawn point 
         Health = maxHealth;
 
-        charControl.enabled = true; // Re-enables the players character controller to allow them to move again
-
         yield return new WaitForSeconds(waitFade); // Waits until the fade finishes
+
+        yield return new WaitForSeconds(0.5f);
+
+        charControl.enabled = true; // Re-enables the players character controller to allow them to move again
 
         // Resets the players dash if said co-routine was interuptted
         dashRest();
