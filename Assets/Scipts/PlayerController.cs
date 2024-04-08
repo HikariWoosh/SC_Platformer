@@ -266,12 +266,14 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DashCooldown()
     {
-        // Waits until the user is grounded before starting the cooldown period
-        StartCoroutine(DashCooldownGrounded());
-        
         cooldownTimer = 0f;
 
-        while (cooldownTimer < dashCooldown)
+        // Waits until the user is grounded before starting the cooldown period
+        StartCoroutine(DashCooldownGrounded());
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        while (cooldownTimer < dashCooldown && cooldownTimer != 5)
         {
             Debug.Log("HI");
             // Update fill amount based on cooldown progress
@@ -280,11 +282,12 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(dashCooldown);
-
         // Reset fill amount to 1 and enable dash
-        StelCrystal.fillAmount = 1;
-        canDash = true;
+        if (!canDash)
+        {
+            StelCrystal.fillAmount = 1;
+            canDash = true;
+        }
 
     }
 
