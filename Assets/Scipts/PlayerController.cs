@@ -244,6 +244,8 @@ public class PlayerController : MonoBehaviour
 
         dashSoundEffect.Play();
 
+        StartCoroutine(DashCooldown());
+
         // For the duration of the dash, move the player towards the dash direction
         while (elapsedTime < dashDuration)
         {
@@ -257,8 +259,14 @@ public class PlayerController : MonoBehaviour
         elapsedTime = 0f;
         moveSpeed = originalMoveSpeed;
 
+    }
+
+    IEnumerator DashCooldown()
+    {
         // Waits until the user is grounded before starting the cooldown period
-        yield return new WaitUntil(() => isGrounded());
+        StartCoroutine(DashCooldownGrounded());
+        yield return new WaitForSeconds(dashCooldown);
+        
         float cooldownTimer = 0f;
 
         while (cooldownTimer < dashCooldown)
@@ -268,7 +276,7 @@ public class PlayerController : MonoBehaviour
             cooldownTimer += Time.deltaTime;
             yield return null;
         }
-        
+
 
         // Reset fill amount to 1 and enable dash
         StelCrystal.fillAmount = 1;
@@ -276,6 +284,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    IEnumerator DashCooldownGrounded()
+    {
+        if (!onGround)
+        {
+            yield return new WaitUntil(() => onGround);
+
+            // Reset fill amount to 1 and enable dash
+            StelCrystal.fillAmount = 1;
+            canDash = true;
+
+            Debug.Log("WAVEDASH");
+        }
+    }
 
 
     bool CheckFalling()
