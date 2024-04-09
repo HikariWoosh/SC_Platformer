@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthControl : MonoBehaviour
 {
@@ -82,6 +83,8 @@ public class HealthControl : MonoBehaviour
         respawnPoint = playerCharacter.transform.position; // Sets the players respawn point to were they begin
 
         charControl = FindAnyObjectByType<CharacterController>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Update is called once per frame
@@ -218,5 +221,25 @@ public class HealthControl : MonoBehaviour
         playerCharacter.GetComponent<PlayerController>().elapsedTime = 0;
         playerCharacter.GetComponent<PlayerController>().moveSpeed = playerCharacter.GetComponent<PlayerController>().originalMoveSpeed;
         playerCharacter.GetComponent<PlayerController>().StelCrystal.fillAmount = 1;
+    }
+
+    private void Teleport()
+    {
+
+        // Enables the player character, allowing it to be accessed 
+        playerCharacter.gameObject.SetActive(true);
+
+        // Disables the CharacterController to allow the respawn to reposition the player
+        charControl.enabled = false;
+        playerCharacter.transform.position = respawnPoint; // Set player position to respawn point 
+        Health = maxHealth;
+        charControl.enabled = true; // Re-enables the players character controller to allow them to move again
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        respawnPoint = new Vector3(0, 5, 0);
+        Teleport();
+
     }
 }

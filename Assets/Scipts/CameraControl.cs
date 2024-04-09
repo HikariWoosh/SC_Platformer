@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class CameraControl : MonoBehaviour
 {
@@ -39,7 +43,7 @@ public class CameraControl : MonoBehaviour
 
     [Header("Camera Switching")]
     [SerializeField]
-    private Camera MainCamera; // Main 3d Camera Field
+    public Camera MainCamera; // Main 3d Camera Field
 
     [SerializeField]
     private Camera Camera2D; // Field for the 2d camera
@@ -47,7 +51,8 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private GameObject CameraRender2D;
 
-    private Vector3 MainStored; // Variable to store the position of the 3d camera
+    [SerializeField]
+    public bool storedGraphic;
 
 
     [Header("Layer Masks")]
@@ -61,13 +66,14 @@ public class CameraControl : MonoBehaviour
         // Sets the offset position
         offset = target.position - transform.position;
 
+        Invoke("DelayedChangeGraphics", 0.01f);
+
         // Sets the pivot locations
         verticalPivot.transform.position = target.transform.position;
         horizontalPivot.transform.position = target.transform.position;
 
         // Sets the horizontal pivot as the parent of the vertical pivot
         verticalPivot.transform.parent = horizontalPivot.transform;
-        horizontalPivot.transform.parent = null;
 
         healthControl = FindAnyObjectByType<HealthControl>();
 
@@ -185,14 +191,55 @@ public class CameraControl : MonoBehaviour
         {
             transform.LookAt(target); // Makes the camera look at the player
             MainCamera.enabled = false;
+            ChangeGraphics(true);
             Camera2D.enabled = true;
             CameraRender2D.SetActive(true);
+ 
         }
         else
         {
             MainCamera.enabled = true;
+            ChangeGraphics(false);
             Camera2D.enabled = false;
             CameraRender2D.SetActive(false);
+        }
+    }
+
+    public void DelayedChangeGraphics()
+    {
+        ChangeGraphics(false);
+    }
+
+    public void ChangeGraphics(bool enable)
+    {
+        // https://forum.unity.com/threads/how-to-get-access-to-renderer-features-at-runtime.1193572/
+
+        var renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
+        var property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
+        List<ScriptableRendererFeature> features = property.GetValue(renderer) as List<ScriptableRendererFeature>;
+
+        if (!enable)
+        {
+            foreach (var feature in features)
+            {
+                if (feature.GetType() == typeof(PixelizeFeature))
+                {
+                    Debug.Log("Cleared");
+                    (feature as PixelizeFeature).SetActive(false);
+                    storedGraphic = false;
+                }
+            }
+        }
+        else
+        {
+            foreach (var feature in features)
+            {
+                if (feature.GetType() == typeof(PixelizeFeature))
+                {
+                    (feature as PixelizeFeature).SetActive(true);
+                    storedGraphic = true;
+                }
+            }
         }
     }
 }

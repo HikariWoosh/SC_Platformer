@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private bool onGround;
+
+    [SerializeField]
+    private bool sceneLoaded;
 
 
 
@@ -110,13 +114,12 @@ public class PlayerController : MonoBehaviour
         cc = gameObject.GetComponent<CharacterController>(); // Assigns the character controller component to the variable 'cc'
         capsuleRadius = gameObject.GetComponent<CapsuleCollider>().radius;
         CheckpointsLayer = LayerMask.NameToLayer("Checkpoints");
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cc.enabled)
+        if (cc.enabled && sceneLoaded)
         {
 
             if (cc.isGrounded)

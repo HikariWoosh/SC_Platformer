@@ -36,10 +36,16 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private TMP_Dropdown qualitySelect;
 
+
+    [Header("Game Objects")]
+    [SerializeField]
+    private CameraControl cameraControl;
+
     Resolution[] resolutions;
 
     private void Start()
     {
+        cameraControl = FindAnyObjectByType<CameraControl>();
 
         LoadResolutions();
 
@@ -133,6 +139,11 @@ public class MainMenu : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityIndex);
         PlayerPrefs.SetInt("qualityLevel", qualityIndex);
 
+    }
+
+    public void pixelFilter()
+    {
+        cameraControl.ChangeGraphics(cameraControl.storedGraphic);
     }
 
     private void LoadQuality()

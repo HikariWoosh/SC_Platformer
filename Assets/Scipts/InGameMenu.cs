@@ -3,6 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class InGameMenu : MonoBehaviour
 {
+    [Header("Game Objects")]
+    [SerializeField]
+    private CameraControl cameraControl;
+
     [SerializeField]
     private GameObject pauseMenu;
 
@@ -16,6 +20,8 @@ public class InGameMenu : MonoBehaviour
 
     private void Start()
     {
+        cameraControl = FindAnyObjectByType<CameraControl>();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -69,7 +75,9 @@ public class InGameMenu : MonoBehaviour
 
     public void mainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        cameraControl.ChangeGraphics(false);
+
+        SceneManager.LoadScene("The Interstice");
         Unpause();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

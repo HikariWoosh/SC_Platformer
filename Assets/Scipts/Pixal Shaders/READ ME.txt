@@ -1,0 +1,3 @@
+All code taken from: https://github.com/whateep/unity-simple-URP-pixelation
+
+This was a very interesting watch! - Sam

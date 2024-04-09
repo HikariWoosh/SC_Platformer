@@ -30,7 +30,7 @@ public class CameraControlSecondDimension : MonoBehaviour
 
         // Change the 2d cameras position based on the player
         transform.eulerAngles = new Vector3(
-            target.eulerAngles.x,
+            target.eulerAngles.x + 1,
             transform.eulerAngles.y,
             target.eulerAngles.z
         );
