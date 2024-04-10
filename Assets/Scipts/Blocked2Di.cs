@@ -14,17 +14,30 @@ public class Blocked2Di : MonoBehaviour
     private bool isActive;
 
     // Update is called once per frame
+    private void Start()
+    {
+        Invoke("findCamera", 0.2f);
+    }
+
+    private void findCamera()
+    {
+        MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
+
     void LateUpdate()
     {
-        isActive = MainCamera.enabled;
+        if (MainCamera != null)
+        {
+            isActive = MainCamera.enabled;
 
-        if (isActive)
-        {
-            Obsticle.SetActive(true);
-        }
-        else
-        {
-            Obsticle.SetActive(false);
+            if (isActive)
+            {
+                Obsticle.SetActive(true);
+            }
+            else
+            {
+                Obsticle.SetActive(false);
+            }
         }
     }
 }

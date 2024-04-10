@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class CameraControl : MonoBehaviour
 {
@@ -49,10 +50,7 @@ public class CameraControl : MonoBehaviour
     private Camera Camera2D; // Field for the 2d camera
 
     [SerializeField]
-    private GameObject CameraRender2D;
-
-    [SerializeField]
-    public bool storedGraphic;
+    public GameObject Camera2DView;
 
 
     [Header("Layer Masks")]
@@ -66,8 +64,6 @@ public class CameraControl : MonoBehaviour
         // Sets the offset position
         offset = target.position - transform.position;
 
-        Invoke("DelayedChangeGraphics", 0.01f);
-
         // Sets the pivot locations
         verticalPivot.transform.position = target.transform.position;
         horizontalPivot.transform.position = target.transform.position;
@@ -77,8 +73,7 @@ public class CameraControl : MonoBehaviour
 
         healthControl = FindAnyObjectByType<HealthControl>();
 
-        // Makes it so the cursor cannot be seen during gameplay
-        Cursor.lockState = CursorLockMode.Locked;
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Create layer masks
         playerLayerMask = 1 << target.gameObject.layer;
@@ -93,7 +88,7 @@ public class CameraControl : MonoBehaviour
     void LateUpdate()
     {
         // Button to switch camera view
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && SceneManager.GetActiveScene().name != "Main Menu")
         {
             Show2DView();
         }
@@ -191,55 +186,28 @@ public class CameraControl : MonoBehaviour
         {
             transform.LookAt(target); // Makes the camera look at the player
             MainCamera.enabled = false;
-            ChangeGraphics(true);
             Camera2D.enabled = true;
-            CameraRender2D.SetActive(true);
+            Camera2DView.SetActive(true);
  
         }
         else
         {
             MainCamera.enabled = true;
-            ChangeGraphics(false);
             Camera2D.enabled = false;
-            CameraRender2D.SetActive(false);
+            Camera2DView.SetActive(false);
         }
     }
 
-    public void DelayedChangeGraphics()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ChangeGraphics(false);
-    }
-
-    public void ChangeGraphics(bool enable)
-    {
-        // https://forum.unity.com/threads/how-to-get-access-to-renderer-features-at-runtime.1193572/
-
-        var renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
-        var property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
-        List<ScriptableRendererFeature> features = property.GetValue(renderer) as List<ScriptableRendererFeature>;
-
-        if (!enable)
+        if (scene.name == "Main Menu")
         {
-            foreach (var feature in features)
-            {
-                if (feature.GetType() == typeof(PixelizeFeature))
-                {
-                    Debug.Log("Cleared");
-                    (feature as PixelizeFeature).SetActive(false);
-                    storedGraphic = false;
-                }
-            }
+            MainCamera.GetComponent<AudioListener>().enabled = false;
         }
         else
         {
-            foreach (var feature in features)
-            {
-                if (feature.GetType() == typeof(PixelizeFeature))
-                {
-                    (feature as PixelizeFeature).SetActive(true);
-                    storedGraphic = true;
-                }
-            }
+            MainCamera.GetComponent<AudioListener>().enabled = true;
         }
+
     }
 }

@@ -11,6 +11,12 @@ public class InGameMenu : MonoBehaviour
     private GameObject pauseMenu;
 
     [SerializeField]
+    private GameObject Timer;
+
+    [SerializeField]
+    private GameObject Crystals;
+
+    [SerializeField]
     private GameObject gameCamera;
 
     [SerializeField]
@@ -24,11 +30,13 @@ public class InGameMenu : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "Main Menu")
         {
             bool isRespawning = gameManager.GetComponent<HealthControl>().isRespawning;
             if (!isRespawning)
@@ -75,12 +83,18 @@ public class InGameMenu : MonoBehaviour
 
     public void mainMenu()
     {
-        cameraControl.ChangeGraphics(false);
-
-        SceneManager.LoadScene("The Interstice");
+        SceneManager.LoadScene("Main Menu");
         Unpause();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Interstice()
+    {
+        SceneManager.LoadScene("The Interstice");
+        Unpause();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Retry()
@@ -96,6 +110,29 @@ public class InGameMenu : MonoBehaviour
         SceneManager.LoadScene(currentSceneName);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; 
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        if (scene.name != "Main Menu") 
+        {
+            if(scene.name != "The Interstice")
+            {
+                Timer.SetActive(true);
+            }
+            else
+            {
+                Timer.SetActive(false);
+            }
+
+            Crystals.SetActive(true);
+        }
+        else
+        {
+            Timer.SetActive(false);
+            Crystals.SetActive(false);
+        }
     }
 
 }

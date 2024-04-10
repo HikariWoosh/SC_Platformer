@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class timeSlow : MonoBehaviour
@@ -43,7 +44,7 @@ public class timeSlow : MonoBehaviour
     {
         if (slowTimeUnlocked && !UI.GetComponent<InGameMenu>().isPaused)
         {
-            if (Input.GetButtonDown("SlowTime"))
+            if (Input.GetButtonDown("SlowTime") && SceneManager.GetActiveScene().name != "Main Menu")
             {
                 if (isTimeSlow)
                 {

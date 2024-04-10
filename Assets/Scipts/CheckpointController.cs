@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CheckpointController : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class CheckpointController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        healthControl = FindAnyObjectByType<HealthControl>(); // Finds the health controller
+        Invoke("findHealthControl", 0.2f);
     }
 
+    private void findHealthControl()
+    {
+        healthControl = FindAnyObjectByType<HealthControl>(); // Finds the health controller
+    }
 
     private void OnTriggerEnter(Collider other) // If anything collides with the checkpoint runs
     {

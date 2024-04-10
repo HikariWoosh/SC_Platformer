@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class jewelGUI : MonoBehaviour
 {
@@ -23,12 +24,14 @@ public class jewelGUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("countJewels", 0.1f);
+        Invoke("countJewels", 0.2f);
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void countJewels()
     {
+        jewelManager = GameObject.Find("Jewels");
         jewelAmount = jewelManager.GetComponent<JewelManager>().maxJewelCount;
         CreateJewelSlots(jewelAmount);
     }
@@ -42,6 +45,15 @@ public class jewelGUI : MonoBehaviour
             slot.transform.localPosition = new Vector3(xPos, 0, 0);
             jewelSlots.Add(slot);
         }
+    }
+
+    void removeJewelSlots()
+    {
+        foreach (var slot in jewelSlots)
+        {
+            Destroy(slot);
+        }
+        jewelSlots.Clear();
     }
 
 
@@ -69,6 +81,15 @@ public class jewelGUI : MonoBehaviour
                     return;
                 }
             }
+        }
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        slotNumber = 0;
+        Invoke("removeJewelSlots", 0.01f);
+        if (scene.name != "Main Menu" && scene.name != "The Interstice")
+        {
+            Invoke("countJewels", 0.1f);
         }
     }
 }

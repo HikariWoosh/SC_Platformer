@@ -238,8 +238,19 @@ public class HealthControl : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        respawnPoint = new Vector3(0, 5, 0);
-        Teleport();
+        if (scene.name == "The Interstice")
+        {
+            respawnPoint = new Vector3(0, 3, 0);
+            Teleport();
+        }
 
+        else if (scene.name == "Game")
+        {
+            respawnPoint = new Vector3(-131, 3, -146.5f);
+            Teleport();
+        }
+
+        deaths = 0;
+        deathText.text = string.Format("x {0}", deaths);
     }
 }

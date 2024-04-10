@@ -24,6 +24,11 @@ public class jewelCollector : MonoBehaviour
 
     void Start()
     {
+        Invoke("findObjects", 0.01f);
+    }
+
+    void findObjects()
+    {
         jewelManager = FindAnyObjectByType<JewelManager>(); // Caches the jewel manager
         jewelGUI = FindAnyObjectByType<jewelGUI>();
     }

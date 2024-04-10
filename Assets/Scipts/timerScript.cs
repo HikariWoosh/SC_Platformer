@@ -1,11 +1,12 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class timerScript : MonoBehaviour
 {
 
     [SerializeField]
-    private double time = 0; 
+    private double time;
 
     [SerializeField]
     private bool timeOn = true;
@@ -21,6 +22,11 @@ public class timerScript : MonoBehaviour
     void Start()
     {
         timeOn = true;
+
+        time = -1;
+        updateTime((float)time);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Update is called once per frame
@@ -57,5 +63,20 @@ public class timerScript : MonoBehaviour
         timeText.text = string.Format("{0}:{1:00}:{2:00}.", hours, minutes, seconds);
 
         MstimeText.text = string.Format("{0:000}", milliseconds);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        time = -1;
+        updateTime((float)time);
+        if (scene.name == "The Interstice" || scene.name == "Main Menu")
+        {
+            timeOn = false;
+        }
+        else
+        {
+            timeOn = true;
+        }
+
     }
 }

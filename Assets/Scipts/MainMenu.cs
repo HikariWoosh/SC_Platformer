@@ -90,6 +90,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         SceneManager.LoadScene("Game");
     }
 
@@ -139,11 +141,6 @@ public class MainMenu : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityIndex);
         PlayerPrefs.SetInt("qualityLevel", qualityIndex);
 
-    }
-
-    public void pixelFilter()
-    {
-        cameraControl.ChangeGraphics(cameraControl.storedGraphic);
     }
 
     private void LoadQuality()

@@ -36,9 +36,6 @@ public class leverScript : MonoBehaviour
     private Camera MainCamera;
 
     [SerializeField]
-    private Camera subCamera;
-
-    [SerializeField]
     private GameObject Player;
 
     [SerializeField]
@@ -53,32 +50,44 @@ public class leverScript : MonoBehaviour
     [SerializeField]
     private Animator anim; // Used to control animaiton 
 
+    private void Start()
+    {
+        Invoke("findCameraPlayer", 0.2f);
+    }
 
-
+    private void findCameraPlayer()
+    {
+        MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        Player = GameObject.Find("Player");
+    }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        isActive = MainCamera.enabled;
-
-        if (!isActive)
+        if (MainCamera != null)
         {
-            Lever.SetActive(true);
-            Collision.enabled = true;
-            TwoDLever.SetActive(false);
-        }
 
-        else
-        {
-            Lever.SetActive(false);
-            Collision.enabled= false;
-            TwoDLever.SetActive(true);
-        }
+            isActive = MainCamera.enabled;
 
-        if (Input.GetKeyDown(KeyCode.E) && leverUsed != true && Time.time >= lastPullTime + pullCooldown)
-        {
-            lastPullTime = Time.time;
-            Pulled = true;
+            if (!isActive)
+            {
+                Lever.SetActive(true);
+                Collision.enabled = true;
+                TwoDLever.SetActive(false);
+            }
+
+            else
+            {
+                Lever.SetActive(false);
+                Collision.enabled = false;
+                TwoDLever.SetActive(true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && leverUsed != true && Time.time >= lastPullTime + pullCooldown)
+            {
+                lastPullTime = Time.time;
+                Pulled = true;
+            }
         }
 
     }
