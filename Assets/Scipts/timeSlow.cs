@@ -20,6 +20,12 @@ public class timeSlow : MonoBehaviour
     private float timeSlowDuration;
 
     [SerializeField]
+    private float timeSlowRecharge;
+
+    [SerializeField]
+    private float timeSlowDrain;
+
+    [SerializeField]
     private float timeSlowMax;
 
 
@@ -58,7 +64,7 @@ public class timeSlow : MonoBehaviour
 
             if (isTimeSlow)
             {
-                timeSlowDuration -= 0.05f;
+                timeSlowDuration -= timeSlowDrain * Time.deltaTime;
                 if (timeSlowDuration <= 0f)
                 {
                     UnSlowTime();
@@ -68,7 +74,7 @@ public class timeSlow : MonoBehaviour
             {
                 if (timeSlowDuration <= timeSlowMax)
                 {
-                    timeSlowDuration += 0.01f;
+                    timeSlowDuration += timeSlowRecharge * Time.deltaTime;
                 }
 
             }

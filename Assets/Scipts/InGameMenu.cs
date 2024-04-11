@@ -114,7 +114,6 @@ public class InGameMenu : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
         if (scene.name != "Main Menu") 
         {
             if(scene.name != "The Interstice")
