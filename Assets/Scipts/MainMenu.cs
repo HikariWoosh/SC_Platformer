@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
+using System.Collections;
+using UnityEditor.Rendering;
 
 public class MainMenu : MonoBehaviour
 {
@@ -40,6 +42,12 @@ public class MainMenu : MonoBehaviour
     [Header("Game Objects")]
     [SerializeField]
     private CameraControl cameraControl;
+
+    [SerializeField]
+    private Animator transition;
+
+    [SerializeField]
+    private float transitionTime;
 
     Resolution[] resolutions;
 
@@ -96,7 +104,18 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        SceneManager.LoadScene("Game");
+        StartCoroutine(LoadLevel());
+    }
+
+    private IEnumerator LoadLevel()
+    {
+        transition.SetBool("Fade", true);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadScene("Beginning Sequence");
+
+        transition.SetBool("Fade", false);
     }
 
     public void QuitGame()

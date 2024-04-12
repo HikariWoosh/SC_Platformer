@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +22,12 @@ public class InGameMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject gameManager;
+
+    [SerializeField]
+    private Animator transition;
+
+    [SerializeField]
+    private float transitionTime;
 
     public bool isPaused = false;
 
@@ -83,15 +90,26 @@ public class InGameMenu : MonoBehaviour
 
     public void mainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        StartCoroutine(LoadLevel("Main Menu"));
         Unpause();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
 
+    private IEnumerator LoadLevel(string Level)
+    {
+        transition.SetBool("Fade", true);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadScene(Level);
+
+        transition.SetBool("Fade", false);
+    }
+
     public void Interstice()
     {
-        SceneManager.LoadScene("The Interstice");
+        StartCoroutine(LoadLevel("The Interstice"));
         Unpause();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

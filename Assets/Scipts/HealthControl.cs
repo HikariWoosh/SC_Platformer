@@ -238,13 +238,13 @@ public class HealthControl : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "The Interstice")
+        if (scene.name == "The Interstice" || scene.name == "Realm Of Time")
         {
             respawnPoint = new Vector3(0, 3, 0);
             Teleport();
         }
 
-        else if (scene.name == "Game")
+        else if (scene.name == "Beginning Sequence")
         {
             respawnPoint = new Vector3(-131, 3, -146.5f);
             Teleport();
