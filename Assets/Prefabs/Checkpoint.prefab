@@ -68,11 +68,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a1fee49fb6f2d49b6b9900bd757635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthControl: {fileID: 0}
   spawnLocation: {x: 0, y: 0, z: 0}
   flagRender: {fileID: 1782615105599734149}
   flagOn: {fileID: 2100000, guid: 7f40f6fd06d3cb0418e32def690c69ea, type: 2}
   flagOff: {fileID: 2100000, guid: 0e0bdf709007b9d4689d93b83dbd2313, type: 2}
+  healthControl: {fileID: 0}
 --- !u!1 &6823647639681171447
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 6823647639681171447}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

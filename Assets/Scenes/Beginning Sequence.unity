@@ -6816,6 +6816,11 @@ PrefabInstance:
       propertyPath: StelCrystal
       value: 
       objectReference: {fileID: 1134472186}
+    - target: {fileID: 1076708670944629632, guid: 21826700a8033b14db228689b8d258e0,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3456600745198914477, guid: 21826700a8033b14db228689b8d258e0,
         type: 3}
       propertyPath: m_Name
@@ -6870,6 +6875,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148035165371011270, guid: 21826700a8033b14db228689b8d258e0,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148035165371011270, guid: 21826700a8033b14db228689b8d258e0,
+        type: 3}
+      propertyPath: m_SlopeLimit
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
