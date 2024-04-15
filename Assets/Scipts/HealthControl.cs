@@ -244,6 +244,7 @@ public class HealthControl : MonoBehaviour
             Teleport();
         }
 
+
         else if (scene.name == "Beginning Sequence")
         {
             respawnPoint = new Vector3(-131, 3, -146.5f);
