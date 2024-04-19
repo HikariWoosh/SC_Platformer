@@ -44,6 +44,9 @@ public class turretScript : MonoBehaviour
     [SerializeField]
     private float inRange;
 
+    [SerializeField]
+    private AudioSource soundEffect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +80,7 @@ public class turretScript : MonoBehaviour
 
     void shoot()
     {
+        soundEffect.Play();
         GameObject clone = Instantiate(bullet, barrel.position, transform.rotation);
         clone.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
         Destroy(clone, 1);

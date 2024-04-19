@@ -56,6 +56,7 @@ public class CameraControl : MonoBehaviour
     [Header("Layer Masks")]
     private int playerLayerMask;
     private int checkPointLayerMask;
+    private int cameraIgnoreLayerMask;
     private int ignoreLayerMask;
 
     // Start is called before the first frame update
@@ -77,8 +78,9 @@ public class CameraControl : MonoBehaviour
 
         // Create layer masks
         playerLayerMask = 1 << target.gameObject.layer;
-        checkPointLayerMask = 1 << LayerMask.NameToLayer("Checkpoints"); // Assuming "CheckpointLayer" is the name of your checkpoint layer
-        int playerAndCheckpointLayerMask = playerLayerMask | checkPointLayerMask;
+        checkPointLayerMask = 1 << LayerMask.NameToLayer("Checkpoints");
+        cameraIgnoreLayerMask = 1 << LayerMask.NameToLayer("CameraIgnore");
+        int playerAndCheckpointLayerMask = playerLayerMask | checkPointLayerMask | cameraIgnoreLayerMask;
         ignoreLayerMask = ~playerAndCheckpointLayerMask;
 
     }
