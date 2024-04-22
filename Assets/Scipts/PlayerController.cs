@@ -247,7 +247,6 @@ public class PlayerController : MonoBehaviour
 
     public void movePlayer(Vector3 convayerDirection, int speed)
     {
-        Debug.Log("Test");
         cc.Move(convayerDirection * speed * Time.deltaTime);
     }
 

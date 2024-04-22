@@ -238,12 +238,15 @@ public class HealthControl : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "The Interstice" || scene.name == "Realm Of Time")
+        if (scene.name == "Realm Of Time")
         {
-            respawnPoint = new Vector3(0, 3, 0);
-            Teleport();
+            RoT();
         }
 
+        else if (scene.name == "The Interstice")
+        {
+            Interstice();
+        }
 
         else if (scene.name == "Beginning Sequence")
         {
@@ -253,5 +256,17 @@ public class HealthControl : MonoBehaviour
 
         deaths = 0;
         deathText.text = string.Format("x {0}", deaths);
+    }
+
+    public void RoT()
+    {
+        respawnPoint = new Vector3(0, 3, 0);
+        Teleport();
+    }
+
+    public void Interstice()
+    {
+        respawnPoint = new Vector3(30, 3, 10);
+        Teleport();
     }
 }

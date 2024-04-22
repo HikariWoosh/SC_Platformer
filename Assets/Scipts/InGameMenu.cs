@@ -109,7 +109,7 @@ public class InGameMenu : MonoBehaviour
 
     public void Interstice()
     {
-        StartCoroutine(LoadLevel("Realm Of Time"));
+        StartCoroutine(LoadLevel("The Interstice"));
         Unpause();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
