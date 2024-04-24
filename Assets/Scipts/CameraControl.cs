@@ -52,6 +52,9 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     public GameObject Camera2DView;
 
+    [SerializeField]
+    public bool canSwitch;
+
 
     [Header("Layer Masks")]
     private int playerLayerMask;
@@ -90,7 +93,7 @@ public class CameraControl : MonoBehaviour
     void LateUpdate()
     {
         // Button to switch camera view
-        if (Input.GetKeyDown(KeyCode.G) && SceneManager.GetActiveScene().name != "Main Menu")
+        if (Input.GetKeyDown(KeyCode.G) && SceneManager.GetActiveScene().name != "Main Menu" && canSwitch)
         {
             Show2DView();
         }
@@ -163,6 +166,13 @@ public class CameraControl : MonoBehaviour
             // Makes the camera look at the player
             transform.LookAt(target);
         }
+    }
+
+    public void triggerLeave()
+    {
+        MainCamera.enabled = true;
+        Camera2D.enabled = false;
+        Camera2DView.SetActive(false);
     }
 
     public void SetRotateSpeed(float speed)

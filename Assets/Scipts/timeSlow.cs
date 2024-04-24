@@ -28,6 +28,9 @@ public class timeSlow : MonoBehaviour
     [SerializeField]
     private float timeSlowMax;
 
+    [SerializeField]
+    public bool noCostForSlow;
+
 
     [Header("Game Objects")]
     [SerializeField]
@@ -50,7 +53,7 @@ public class timeSlow : MonoBehaviour
     {
         if (slowTimeUnlocked && !UI.GetComponent<InGameMenu>().isPaused)
         {
-            if (Input.GetButtonDown("SlowTime") && SceneManager.GetActiveScene().name != "Main Menu")
+            if (Input.GetButtonDown("SlowTime") && SceneManager.GetActiveScene().name != "Main Menu" && !noCostForSlow)
             {
                 if (isTimeSlow)
                 {
@@ -62,7 +65,7 @@ public class timeSlow : MonoBehaviour
                 }
             }
 
-            if (isTimeSlow)
+            if (isTimeSlow && !noCostForSlow)
             {
                 timeSlowDuration -= timeSlowDrain * Time.deltaTime;
                 if (timeSlowDuration <= 0f)
@@ -96,6 +99,8 @@ public class timeSlow : MonoBehaviour
         playerCharacter.GetComponent<PlayerController>().gravitySpeed = 2;
 
     }
+
+
 
     public void UnSlowTime()
     {

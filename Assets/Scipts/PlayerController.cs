@@ -90,6 +90,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Camera Camera2D; // Main 2D Camera
 
+    [SerializeField]
+    public bool Movement2D;
+
 
     [Header("Cache")]
 
@@ -151,12 +154,12 @@ public class PlayerController : MonoBehaviour
             float yStore = moveDirection.y;
 
             // Controls movement
-            if (MainCamera.enabled)
+            if (MainCamera.enabled || !Movement2D)
             {
                 // If MainCamera is enabled, movement depends on camera orientation
                 moveDirection = (Pivot.forward * Input.GetAxisRaw("Vertical")) + (Pivot.right * Input.GetAxisRaw("Horizontal"));
             }
-            else if (Camera2D.enabled)
+            else if (Camera2D.enabled || Movement2D)
             {
                 // If Camera2D is enabled, movement is fixed along world axis
                 moveDirection = (Vector3.forward * Input.GetAxisRaw("Horizontal")) + (-Vector3.right * Input.GetAxisRaw("Vertical"));
@@ -249,6 +252,7 @@ public class PlayerController : MonoBehaviour
     {
         cc.Move(convayerDirection * speed * Time.deltaTime);
     }
+
 
     public void Dash()
     {

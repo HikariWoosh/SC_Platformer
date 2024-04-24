@@ -11,11 +11,20 @@ public class CameraControlSecondDimension : MonoBehaviour
     [SerializeField]
     private Vector3 offset; // Offset between the player and the camera
 
+    [SerializeField]
+    private Quaternion rotation;
+
     // Start is called before the first frame update
     void Start()
     {
         // Sets the offset position
         offset = target.position - transform.position;
+    }
+
+    public void changeOffset(Vector3 newOffset, Quaternion newRotation)
+    {
+        offset = newOffset;
+        rotation = newRotation;
     }
 
     // Called once per frame after Update()
@@ -29,10 +38,6 @@ public class CameraControlSecondDimension : MonoBehaviour
         transform.position = newPosition;
 
         // Change the 2d cameras position based on the player
-        transform.eulerAngles = new Vector3(
-            target.eulerAngles.x + 1,
-            transform.eulerAngles.y,
-            target.eulerAngles.z
-        );
+        transform.rotation = rotation;
     }
 }

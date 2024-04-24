@@ -83,7 +83,7 @@ public class leverScript : MonoBehaviour
                 TwoDLever.SetActive(true);
             }
 
-            if (Input.GetKeyDown(KeyCode.E) && leverUsed != true && Time.time >= lastPullTime + pullCooldown)
+            if (Input.GetKeyDown(KeyCode.E) && leverUsed != true && Time.time >= lastPullTime + pullCooldown && !isActive)
             {
                 lastPullTime = Time.time;
                 Pulled = true;
