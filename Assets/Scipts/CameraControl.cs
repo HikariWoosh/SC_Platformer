@@ -170,9 +170,11 @@ public class CameraControl : MonoBehaviour
 
     public void triggerLeave()
     {
-        MainCamera.enabled = true;
-        Camera2D.enabled = false;
-        Camera2DView.SetActive(false);
+        if (!MainCamera.enabled && !healthControl.Transition && healthControl.Health > 0)
+        {
+            StartCoroutine(Show2DViewCoroutine());
+        }
+
     }
 
     public void SetRotateSpeed(float speed)

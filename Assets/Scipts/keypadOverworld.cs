@@ -24,6 +24,9 @@ public class keypadOverworld : MonoBehaviour
     [SerializeField]
     private bool keypadUsed;
 
+    [SerializeField]
+    private bool canPull;
+
 
     [Header("Game Objects")]
 
@@ -60,7 +63,7 @@ public class keypadOverworld : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.E) && keypadUsed != true && Time.time >= lastPullTime + pullCooldown)
+        if (Input.GetKeyDown(KeyCode.E) && keypadUsed != true && Time.time >= lastPullTime + pullCooldown && canPull)
         {
             lastPullTime = Time.time;
             Pulled = true;
@@ -103,6 +106,12 @@ public class keypadOverworld : MonoBehaviour
         Keypad.SetActive(true);
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        canPull = true;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag.Equals("Player") && isActive && Pulled)
@@ -120,6 +129,7 @@ public class keypadOverworld : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") // If the collider is the player
         {
+            canPull = false;
             closeKeypad();
         }
     }
