@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Purchasing;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -21,10 +20,19 @@ public class treelidAI : MonoBehaviour
     private Vector3 movePosition;
 
     [SerializeField]
-    private bool agroed;
+    private Animator animator;
 
     [SerializeField]
-    private bool chasing;
+    private GameObject deathParticles; // Particles that are emitted upon death
+
+    [SerializeField]
+    private GameObject autumnJewel;
+
+    [SerializeField]
+    private float attackCounter;
+
+    [SerializeField]
+    private HealthControl healthControl;
 
 
     [Header("Enemy Controls")]
@@ -36,18 +44,19 @@ public class treelidAI : MonoBehaviour
     private float returnTime;
 
     [SerializeField]
-    private float gravity;
-
-    [SerializeField]
     private float speed;
 
     [SerializeField]
     private float distance;
 
+    [SerializeField]
+    private float distanceFromPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.Find("Player").transform;
+        healthControl = GameObject.Find("gameManager").GetComponent<HealthControl>();
         startPos = transform.position;
 
     }
@@ -55,26 +64,47 @@ public class treelidAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y >= 1)
-        {
-            transform.Translate(Vector3.down * gravity * Time.deltaTime);
-        }
-
         distance = Vector3.Distance(startPos, target.position);
+        distanceFromPlayer = Vector3.Distance(transform.position, target.position);
 
-        if (distance <= aggroRange)
+        if (transform.position.y >= 3)
         {
-            chase();
+            animator.SetBool("running", false);
         }
 
-        if (distance > aggroRange)
+        if (distanceFromPlayer <= 10f)
         {
-            deAggro();
+            attackCounter = attackCounter + 0.1f;
         }
+        else
+        {
+            attackCounter = 0;
+        }
+
+
+        if (transform.position.y < 1.6) 
+        {
+
+            if (distance <= aggroRange && healthControl.Health > 0)
+            {
+                chase();
+                if(attackCounter > 5)
+                {
+                    attack();
+                }
+            }
+
+            if (distance > aggroRange)
+            {
+                deAggro();
+            }
+        }
+
     }
 
     void chase()
     {
+        animator.SetBool("running", true);
         movePosition = new Vector3(target.position.x, transform.position.y, target.position.z);
         transform.LookAt(movePosition);
         transform.position = Vector3.MoveTowards(treelid.position, movePosition, speed * Time.deltaTime);
@@ -82,8 +112,41 @@ public class treelidAI : MonoBehaviour
 
     void deAggro()
     {
-        transform.LookAt(startPos);
-        transform.position = Vector3.Lerp(transform.position, startPos, returnTime * Time.deltaTime);
+        if (Vector3.Distance(transform.position, startPos) > 5f)
+        {
+            transform.LookAt(startPos);
+            transform.position = Vector3.Lerp(transform.position, startPos, returnTime * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = startPos;
+            animator.SetBool("running", false);
+        }
+    }
+
+    void attack()
+    {
+        StartCoroutine(attackScript(1f));
+    }
+
+    IEnumerator attackScript(float damage)
+    {
+        animator.SetBool("attack", true);
+        healthControl.damagePlayer(1);
+        yield return new WaitForSeconds(damage);
+        animator.SetBool("attack", false);
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("water"))
+        {
+            GameObject Particles = Instantiate(deathParticles, transform.position, transform.rotation);
+            Destroy(Particles, 1f);
+            autumnJewel.transform.position = transform.position;
+            Destroy(this.gameObject);
+        }
     }
 
 }
