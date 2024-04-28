@@ -34,6 +34,9 @@ public class treelidAI : MonoBehaviour
     [SerializeField]
     private HealthControl healthControl;
 
+    [SerializeField]
+    private AudioSource deathSound;
+
 
     [Header("Enemy Controls")]
 
@@ -51,6 +54,19 @@ public class treelidAI : MonoBehaviour
 
     [SerializeField]
     private float distanceFromPlayer;
+
+
+    [Header("Waypoints")]
+
+    [SerializeField]
+    private bool roaming;
+
+    [SerializeField]
+    private List<GameObject> waypoints = new List<GameObject>(); 
+
+    [SerializeField]
+    private int currentWaypointIndex = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +98,7 @@ public class treelidAI : MonoBehaviour
         }
 
 
-        if (transform.position.y < 1.6) 
+        if (transform.position.y < 3) 
         {
 
             if (distance <= aggroRange && healthControl.Health > 0)
@@ -94,9 +110,24 @@ public class treelidAI : MonoBehaviour
                 }
             }
 
-            if (distance > aggroRange)
+            if (distance > aggroRange && !roaming)
             {
                 deAggro();
+            }
+
+            if (roaming)
+            {
+                animator.SetBool("running", true);
+
+                Vector3 currentWaypointPosition = waypoints[currentWaypointIndex].transform.position;
+
+                if (Vector3.Distance(transform.position, currentWaypointPosition) <= 0.1f)
+                {
+                    currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+                }
+
+                transform.LookAt(currentWaypointPosition);
+                transform.position = Vector3.MoveTowards(transform.position, currentWaypointPosition, speed * Time.deltaTime);
             }
         }
 
@@ -104,6 +135,8 @@ public class treelidAI : MonoBehaviour
 
     void chase()
     {
+        roaming = false;
+
         animator.SetBool("running", true);
         movePosition = new Vector3(target.position.x, transform.position.y, target.position.z);
         transform.LookAt(movePosition);
@@ -112,6 +145,7 @@ public class treelidAI : MonoBehaviour
 
     void deAggro()
     {
+
         if (Vector3.Distance(transform.position, startPos) > 5f)
         {
             transform.LookAt(startPos);
@@ -120,6 +154,7 @@ public class treelidAI : MonoBehaviour
         else
         {
             transform.position = startPos;
+            roaming = true;
             animator.SetBool("running", false);
         }
     }
@@ -145,6 +180,7 @@ public class treelidAI : MonoBehaviour
             GameObject Particles = Instantiate(deathParticles, transform.position, transform.rotation);
             Destroy(Particles, 1f);
             autumnJewel.transform.position = transform.position;
+            deathSound.Play();
             Destroy(this.gameObject);
         }
     }

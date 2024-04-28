@@ -22,6 +22,9 @@ public class CameraControl : MonoBehaviour
     private Transform horizontalPivot; // The horizontal camera pivot ('HPivot')
 
     [SerializeField]
+    private Transform followPoint;
+
+    [SerializeField]
     private HealthControl healthControl;
 
 
@@ -66,7 +69,7 @@ public class CameraControl : MonoBehaviour
     void Start()
     {
         // Sets the offset position
-        offset = target.position - transform.position;
+        offset = new Vector3(0, -5, 20);
 
         // Sets the pivot locations
         verticalPivot.transform.position = target.transform.position;
@@ -150,7 +153,7 @@ public class CameraControl : MonoBehaviour
             // Perform raycast to check for collision
             RaycastHit hit;
 
-            if (Physics.Linecast(target.position, desiredPosition, out hit, ignoreLayerMask))
+            if (Physics.Linecast(followPoint.position, desiredPosition, out hit, ignoreLayerMask))
             {
                 Vector3 collisionNormalOffset = hit.normal * 0.1f;
 
@@ -164,7 +167,7 @@ public class CameraControl : MonoBehaviour
             }
 
             // Makes the camera look at the player
-            transform.LookAt(target);
+            transform.LookAt(followPoint);
         }
     }
 
