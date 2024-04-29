@@ -1,11 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class CameraControl : MonoBehaviour
@@ -58,6 +52,9 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     public bool canSwitch;
 
+    [SerializeField]
+    private buttomPrompter prompt;
+
 
     [Header("Layer Masks")]
     private int playerLayerMask;
@@ -79,6 +76,7 @@ public class CameraControl : MonoBehaviour
         verticalPivot.transform.parent = horizontalPivot.transform;
 
         healthControl = FindAnyObjectByType<HealthControl>();
+        prompt = FindAnyObjectByType<buttomPrompter>();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -203,12 +201,17 @@ public class CameraControl : MonoBehaviour
         {
             transform.LookAt(target); // Makes the camera look at the player
             MainCamera.enabled = false;
+
+            prompt.hidePrompts();
+
             Camera2D.enabled = true;
             Camera2DView.SetActive(true);
  
         }
         else
         {
+            prompt.hidePrompts();
+
             MainCamera.enabled = true;
             Camera2D.enabled = false;
             Camera2DView.SetActive(false);

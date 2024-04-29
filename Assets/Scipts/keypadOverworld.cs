@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class keypadOverworld : MonoBehaviour
 {
@@ -48,6 +46,9 @@ public class keypadOverworld : MonoBehaviour
     [SerializeField]
     private SphereCollider Collision;
 
+    [SerializeField]
+    private buttomPrompter prompt;
+
 
     private void Start()
     {
@@ -58,6 +59,7 @@ public class keypadOverworld : MonoBehaviour
     {
         MainCamera = GameObject.Find("Main Camera");
         Player = GameObject.Find("Player");
+        prompt = GameObject.Find("ButtonPromptUI").GetComponent<buttomPrompter>();
         ingameMenu = FindAnyObjectByType<InGameMenu>();
     }
 
@@ -109,7 +111,11 @@ public class keypadOverworld : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        canPull = true;
+        if (other.gameObject.tag == "Player") // If the collider is the player
+        {
+            canPull = true;
+            prompt.showE();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -130,6 +136,7 @@ public class keypadOverworld : MonoBehaviour
         if (other.gameObject.tag == "Player") // If the collider is the player
         {
             canPull = false;
+            prompt.hidePrompts();
             closeKeypad();
         }
     }

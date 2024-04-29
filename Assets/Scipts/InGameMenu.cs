@@ -34,6 +34,7 @@ public class InGameMenu : MonoBehaviour
     private void Start()
     {
         cameraControl = FindAnyObjectByType<CameraControl>();
+        transition = GameObject.Find("SceneTransition").GetComponent<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -43,7 +44,7 @@ public class InGameMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "Main Menu")
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "Main Menu" && SceneManager.GetActiveScene().name != "Beginning Sequence")
         {
             bool isRespawning = gameManager.GetComponent<HealthControl>().isRespawning;
             if (!isRespawning)
@@ -109,7 +110,7 @@ public class InGameMenu : MonoBehaviour
 
     public void Interstice()
     {
-        StartCoroutine(LoadLevel("Realm of Time"));
+        StartCoroutine(LoadLevel("The Interstice"));
         Unpause();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

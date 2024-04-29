@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class teleportScript : MonoBehaviour
@@ -8,13 +6,19 @@ public class teleportScript : MonoBehaviour
     [Header("Game Objects")]
 
     [SerializeField]
-    private GameObject Player;
-
-    [SerializeField]
     private HealthControl HealthControl;
 
     [SerializeField]
     private AudioSource Music;
+
+    [SerializeField]
+    private GameObject linkedParticleObject;
+
+    [SerializeField]
+    private ParticleSystem linkedParticle;
+
+    [SerializeField]
+    private GameObject linkedJewel;
 
     [SerializeField]
     private GameObject BGM;
@@ -26,9 +30,17 @@ public class teleportScript : MonoBehaviour
         Invoke("findPlayer", 0.2f);
     }
 
+    private void Update()
+    {
+        if (!linkedJewel.activeSelf && !linkedParticleObject.activeSelf)
+        {
+            linkedParticleObject.SetActive(true);
+            linkedParticle.Play();
+        }
+    }
+
     private void findPlayer()
     {
-        Player = GameObject.Find("Player");
         HealthControl = FindAnyObjectByType<HealthControl>();
     }
 
@@ -42,7 +54,7 @@ public class teleportScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") // If the collider is the player
+        if (other.gameObject.tag == "Player" && !linkedJewel.activeSelf) // If the collider is the player
         {
             HealthControl.RoT();
             resetMusic();

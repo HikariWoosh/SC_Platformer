@@ -4,9 +4,9 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using System.Collections;
-using UnityEditor.Rendering;
+using Unity.VisualScripting;
+
 
 public class MainMenu : MonoBehaviour
 {
@@ -49,11 +49,16 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private float transitionTime;
 
+    [SerializeField]
+    private InGameMenu gameMenu;
+
     Resolution[] resolutions;
 
     private void Start()
     {
+        transition = GameObject.Find("SceneTransition").GetComponent<Animator>();
         cameraControl = FindAnyObjectByType<CameraControl>();
+        gameMenu = GameObject.Find("UI").GetComponent<InGameMenu>();
 
         LoadResolutions();
 
@@ -104,18 +109,27 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        StartCoroutine(LoadLevel());
+        StartCoroutine(LoadLevel("Beginning Sequence"));
     }
 
-    private IEnumerator LoadLevel()
+    private IEnumerator LoadLevel(string Level)
     {
         transition.SetBool("Fade", true);
 
         yield return new WaitForSeconds(transitionTime);
 
-        SceneManager.LoadScene("Beginning Sequence");
+        SceneManager.LoadScene(Level);
 
-        transition.SetBool("Fade", false);
+        if (Level == "Beginning Sequence" && PlayerPrefs.HasKey("tutorialCompleted") && PlayerPrefs.GetInt("tutorialCompleted") == 1)
+        {
+            Debug.Log("Grabbing Assets");
+        }
+        else
+        {
+            transition.SetBool("Fade", false);
+        }
+
+       
     }
 
     public void QuitGame()

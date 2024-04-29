@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
+
 
 public class allow2D : MonoBehaviour
 {
@@ -16,6 +14,9 @@ public class allow2D : MonoBehaviour
 
     [SerializeField]
     private HealthControl healthControl;
+
+    [SerializeField]
+    private buttomPrompter buttomPrompt;
 
     [SerializeField]
     private Vector3 zoneOffset;
@@ -45,8 +46,9 @@ public class allow2D : MonoBehaviour
     private void findCamera()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
-        control = FindAnyObjectByType<CameraControl>();
-        control2 = FindAnyObjectByType<CameraControlSecondDimension>();
+        buttomPrompt = FindAnyObjectByType<buttomPrompter>();
+        control = GameObject.Find("Main Camera").GetComponent<CameraControl>();
+        control2 = GameObject.Find("2d Camera").GetComponent<CameraControlSecondDimension>();
         healthControl = GameObject.Find("gameManager").GetComponent<HealthControl>();
     }
 
@@ -54,6 +56,9 @@ public class allow2D : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") // If the collider is the player
         {
+            buttomPrompt.hidePrompts();
+            buttomPrompt.showG();
+
             control2.changeOffset(zoneOffset, zoneRotation);
             control.canSwitch = true;
             player.Movement2D = allow2DMovement;
@@ -65,6 +70,7 @@ public class allow2D : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") // If the collider is the player
         {
+            buttomPrompt.hidePrompts();
             control.canSwitch = false;
             control.triggerLeave();
         }

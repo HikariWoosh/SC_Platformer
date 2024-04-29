@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class timeSlowArea : MonoBehaviour
 {
     [SerializeField]
     private timeSlow script;
-
-    [SerializeField]
-    private PlayerController controller;
 
     [SerializeField]
     private HealthControl healthControl;
@@ -24,7 +19,6 @@ public class timeSlowArea : MonoBehaviour
     private void findObjects()
     {
         script = FindAnyObjectByType<timeSlow>();
-        controller = GameObject.Find("Player").GetComponent<PlayerController>();
         healthControl = GameObject.Find("gameManager").GetComponent<HealthControl>();
     }
 

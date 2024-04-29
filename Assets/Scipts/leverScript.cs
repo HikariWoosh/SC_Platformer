@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class leverScript : MonoBehaviour
@@ -42,6 +40,9 @@ public class leverScript : MonoBehaviour
     private SphereCollider Collision;
 
     [SerializeField]
+    private buttomPrompter buttomPrompt;
+
+    [SerializeField]
     private GameObject Open;
 
     [SerializeField]
@@ -59,6 +60,7 @@ public class leverScript : MonoBehaviour
     {
         MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         Player = GameObject.Find("Player");
+        buttomPrompt = FindAnyObjectByType<buttomPrompter>();
     }
 
     // Update is called once per frame
@@ -92,11 +94,19 @@ public class leverScript : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Player"))
+        {
+            buttomPrompt.hidePrompts();
+            buttomPrompt.showE();
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag.Equals("Player") && !isActive && Pulled)
         {
-            Debug.Log("Player pressed the 'E' key.");
             anim.SetTrigger("Pulled");
             TwoDLever.transform.rotation *= Quaternion.Euler(0, 180, 0);
             Close.SetActive(false);
@@ -104,5 +114,10 @@ public class leverScript : MonoBehaviour
             leverUsed = true;
         }
     }
-    
+
+    private void OnTriggerExit(Collider other)
+    {
+        buttomPrompt.hidePrompts();
+    }
+
 }

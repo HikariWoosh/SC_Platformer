@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +36,6 @@ public class JewelManager : MonoBehaviour
             collectSound.Play();
 
             jewels.Remove(Collected);
-            Destroy(Collected); // Remove the GameObject from the scene
 
             jewelCount = jewels.Count;
         }

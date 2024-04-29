@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -223,7 +222,7 @@ public class HealthControl : MonoBehaviour
         playerCharacter.GetComponent<PlayerController>().StelCrystal.fillAmount = 1;
     }
 
-    private void Teleport()
+    public void Teleport()
     {
 
         // Enables the player character, allowing it to be accessed 
