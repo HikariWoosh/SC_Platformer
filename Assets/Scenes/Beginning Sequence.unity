@@ -7190,7 +7190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 469507405}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Teleporter (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12170,7 +12170,7 @@ GameObject:
   - component: {fileID: 555034727}
   - component: {fileID: 555034725}
   - component: {fileID: 555034726}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17776,7 +17776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 798872803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Teleporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21682,7 +21682,7 @@ GameObject:
   - component: {fileID: 1666042415}
   - component: {fileID: 1666042414}
   - component: {fileID: 1666042413}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23252,7 +23252,7 @@ GameObject:
   - component: {fileID: 1971342730}
   - component: {fileID: 1971342729}
   - component: {fileID: 1971342732}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28433,7 +28433,7 @@ Transform:
   m_GameObject: {fileID: 743514280881489828}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.7, y: 0.48, z: -256.6}
+  m_LocalPosition: {x: 4.7, y: -0.659, z: -256.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28916,9 +28916,29 @@ PrefabInstance:
       objectReference: {fileID: 1330140808}
     - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
         type: 3}
+      propertyPath: timeSlowMax
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
+      propertyPath: noCostForSlow
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
+      propertyPath: timeSlowDrain
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
       propertyPath: playerCharacter
       value: 
       objectReference: {fileID: 880346573}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
+      propertyPath: timeSlowRecharge
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5645590466425136922, guid: c599985fb34829c43b8950a68263d6c9,
         type: 3}
       propertyPath: m_Name
