@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JewelManager : MonoBehaviour
 {
@@ -15,9 +16,18 @@ public class JewelManager : MonoBehaviour
     [SerializeField]
     private AudioSource collectSound;
 
+    [SerializeField]
+    private InGameMenu gameMenu;
+
+    [SerializeField]
+    private timeSlow timeSlow;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameMenu = GameObject.Find("UI").GetComponent<InGameMenu>();
+        timeSlow = GameObject.Find("gameManager").GetComponent<timeSlow>();
+
         foreach (Transform child in transform)
         {
             GameObject jewelObject = child.gameObject;
@@ -48,6 +58,14 @@ public class JewelManager : MonoBehaviour
 
     public void allJewelsCollected()
     {
-        Debug.Log("All Jewels Collected");
+        if (SceneManager.GetActiveScene().name == "Realm Of Time" && timeSlow.slowTimeUnlocked != true)
+        {
+            gameMenu.RoTC();
+        }
+        else
+        {
+            gameMenu.Interstice();
+        }
+
     }
 }

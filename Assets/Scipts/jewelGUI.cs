@@ -31,8 +31,11 @@ public class jewelGUI : MonoBehaviour
     void countJewels()
     {
         jewelManager = GameObject.Find("Jewels");
-        jewelAmount = jewelManager.GetComponent<JewelManager>().maxJewelCount;
-        CreateJewelSlots(jewelAmount);
+        if (jewelManager != null)
+        {
+            jewelAmount = jewelManager.GetComponent<JewelManager>().maxJewelCount;
+            CreateJewelSlots(jewelAmount);
+        }
     }
 
     void CreateJewelSlots(int amount)

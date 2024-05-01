@@ -242,6 +242,11 @@ public class HealthControl : MonoBehaviour
             RoT();
         }
 
+        else if (scene.name == "RoTComplete")
+        {
+            RoTC();
+        }
+
         else if (scene.name == "The Interstice")
         {
             Interstice();
@@ -260,6 +265,12 @@ public class HealthControl : MonoBehaviour
     public void RoT()
     {
         respawnPoint = new Vector3(0, 3, 0);
+        Teleport();
+    }
+
+    public void RoTC()
+    {
+        respawnPoint = new Vector3(0, 3, -150);
         Teleport();
     }
 

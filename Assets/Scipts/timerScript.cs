@@ -69,7 +69,7 @@ public class timerScript : MonoBehaviour
     {
         time = -1;
         updateTime((float)time);
-        if (scene.name == "The Interstice" || scene.name == "Main Menu")
+        if (scene.name == "The Interstice" || scene.name == "Main Menu" || scene.name == "RoTComplete")
         {
             timeOn = false;
         }

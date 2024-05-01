@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Realm Of Time.unity
     guid: 3ca4b92a68a080e4f906417c6cdb91b8
+  - enabled: 1
+    path: Assets/Scenes/RoTComplete.unity
+    guid: 27fbd81773b519f45a7758e4990064e1
   m_configObjects: {}

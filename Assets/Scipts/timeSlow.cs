@@ -11,7 +11,7 @@ public class timeSlow : MonoBehaviour
     public bool isTimeSlow;
 
     [SerializeField]
-    private bool slowTimeUnlocked;
+    public bool slowTimeUnlocked;
 
     [SerializeField]
     private float timeSlowDuration;
@@ -45,11 +45,33 @@ public class timeSlow : MonoBehaviour
     [SerializeField]
     private Image EosCrystal;
 
+    [SerializeField]
+    private Image EosCrystalLoad;
+
+    [SerializeField]
+    private Image EosCrystalLocked;
+
     // Update is called once per frame
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("timeSlowing") && PlayerPrefs.GetInt("timeSlowing") == 1)
+        {
+            slowTimeUnlocked = true;
+        }
+    }
+
     void Update()
     {
         if (slowTimeUnlocked && !UI.GetComponent<InGameMenu>().isPaused)
         {
+            if(EosCrystal.enabled == false)
+            {
+                EosCrystal.enabled = true;
+                EosCrystalLoad.enabled = true;
+
+                EosCrystalLocked.enabled = false;
+            }
+
             if (Input.GetButtonDown("SlowTime") && SceneManager.GetActiveScene().name != "Main Menu" && !noCostForSlow)
             {
                 if (isTimeSlow)
@@ -80,6 +102,13 @@ public class timeSlow : MonoBehaviour
             }
 
             EosCrystal.fillAmount = timeSlowDuration / timeSlowMax;
+        }
+        else
+        {
+            EosCrystalLocked.enabled = true;
+
+            EosCrystal.enabled = false;
+            EosCrystalLoad.enabled = false;
         }
 
     }

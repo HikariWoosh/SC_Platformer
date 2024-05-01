@@ -37,8 +37,34 @@ public class dialogueScript : MonoBehaviour
     [SerializeField]
     private int index;
 
+    [SerializeField]
+    private bool TPPlayer;
+
+    [SerializeField]
+    private InGameMenu gameMenu;
+
+    [SerializeField]
+    private timeSlow timeSlow;
+
+    [SerializeField]
+    private GameObject Eos;
+
+    [SerializeField]
+    private Sprite EosIcon;
+
+    [SerializeField]
+    private Material eosIdle;
+
+    [SerializeField]
+    private Material eosTalk;
+
+
+
     void Start()
     {
+        gameMenu = GameObject.Find("UI").GetComponent<InGameMenu>();
+        timeSlow = GameObject.Find("gameManager").GetComponent<timeSlow>();
+
         text.text = string.Empty;
         dialogueRead = false;
         initaliseDialogue();
@@ -47,7 +73,7 @@ public class dialogueScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !gameMenu.isPaused)
         {
             dialogueLogic();
         }
@@ -98,8 +124,24 @@ public class dialogueScript : MonoBehaviour
         foreach (char c in dialogueLines[index].ToCharArray())
         {
             text.text += c;
-            yield return new WaitForSeconds(textSpeed * Time.deltaTime);
+
+            if (!gameMenu.isPaused)
+            {
+                audioSources[index].UnPause();
+                yield return new WaitForSeconds(textSpeed * Time.deltaTime);
+            }
+            else
+            {
+                audioSources[index].Pause();
+                yield return new WaitWhile(() => gameMenu.isPaused);
+            }
         }
+
+        if (TPPlayer)
+        {
+            Eos.GetComponent<Renderer>().material = eosIdle;
+        }
+
         audioSources[index].Stop();
     }
 
@@ -117,6 +159,12 @@ public class dialogueScript : MonoBehaviour
         {
             dialogueRead = true;
             gameObject.SetActive(false);
+            if (TPPlayer && timeSlow.slowTimeUnlocked != true)
+            {
+                timeSlow.slowTimeUnlocked = true;
+                PlayerPrefs.SetInt("timeSlowing", 1);
+                gameMenu.Interstice();   
+            }
         }
     }
 
@@ -126,11 +174,24 @@ public class dialogueScript : MonoBehaviour
         {
             characterImage.sprite = characterImages[index];
         }
+
+        if (TPPlayer)
+        {
+            Renderer eosRenderer = Eos.GetComponent<Renderer>();
+            if (characterImage.sprite == EosIcon)
+            {
+                eosRenderer.material = eosTalk;
+            }
+            else
+            {
+                eosRenderer.material = eosIdle;
+            }
+        }
     }
 
     private void audioSourcePlay()
     {
-        if (index < audioSources.Length && audioSources[index] != null)
+        if (index < audioSources.Length && audioSources[index] != null && !gameMenu.isPaused)
         {
             audioSources[index].Play();
         }

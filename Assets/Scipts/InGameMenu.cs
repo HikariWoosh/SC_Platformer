@@ -116,6 +116,14 @@ public class InGameMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void RoTC()
+    {
+        StartCoroutine(LoadLevel("RoTComplete"));
+        Unpause();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void Retry()
     {
         gameManager.GetComponent<HealthControl>().damagePlayer(2);
@@ -135,7 +143,7 @@ public class InGameMenu : MonoBehaviour
     {
         if (scene.name != "Main Menu") 
         {
-            if(scene.name != "The Interstice")
+            if(scene.name != "The Interstice" && scene.name != "RoTComplete")
             {
                 Timer.SetActive(true);
             }

@@ -5916,6 +5916,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &140800024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6276,6 +6283,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gPrompt: {fileID: 1007424092}
   ePrompt: {fileID: 477417815}
+--- !u!224 &278350525 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 359807468639377630, guid: 2d06acc9be43af24395b5a1decc12477,
+    type: 3}
+  m_PrefabInstance: {fileID: 812935411912646129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &278573838
 GameObject:
   m_ObjectHideFlags: 0
@@ -6479,6 +6492,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &315775501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6790,6 +6810,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &367116847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17094,6 +17121,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &567990641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17800,6 +17834,81 @@ Transform:
   - {fileID: 1666042412}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &809071092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809071093}
+  - component: {fileID: 809071095}
+  - component: {fileID: 809071094}
+  m_Layer: 5
+  m_Name: EosLocked
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &809071093
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809071092}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5469, y: 2.5469, z: 2.5469}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 278350525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -677, y: -501}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &809071094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809071092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2da1a6991fff1b04c9db44eb76483c89, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 1
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &809071095
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809071092}
+  m_CullTransparentMesh: 1
 --- !u!1 &814454725
 GameObject:
   m_ObjectHideFlags: 0
@@ -20398,6 +20507,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &1330140808 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8238636633728235429, guid: 2d06acc9be43af24395b5a1decc12477,
@@ -21408,6 +21524,13 @@ MonoBehaviour:
   timeToText: 0
   timeTillText: 5
   index: 0
+  TPPlayer: 0
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
+  Eos: {fileID: 0}
+  EosIcon: {fileID: 0}
+  eosIdle: {fileID: 0}
+  eosTalk: {fileID: 0}
 --- !u!114 &1562051884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21512,6 +21635,8 @@ MonoBehaviour:
   maxJewelCount: 0
   jewelCount: 0
   collectSound: {fileID: 1579493027}
+  gameMenu: {fileID: 0}
+  timeSlow: {fileID: 0}
 --- !u!4 &1579493026
 Transform:
   m_ObjectHideFlags: 0
@@ -23489,6 +23614,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2006112252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 18642585466702050, guid: 2d06acc9be43af24395b5a1decc12477,
+    type: 3}
+  m_PrefabInstance: {fileID: 812935411912646129}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &2026517300
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -25396,6 +25533,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 1
       addedObject: {fileID: 258766437}
+    - targetCorrespondingSourceObject: {fileID: 359807468639377630, guid: 2d06acc9be43af24395b5a1decc12477,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 809071093}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d06acc9be43af24395b5a1decc12477, type: 3}
 --- !u!1 &919132147489639786
@@ -28931,9 +29072,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
         type: 3}
+      propertyPath: EosCrystalLoad
+      value: 
+      objectReference: {fileID: 2006112252}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
       propertyPath: playerCharacter
       value: 
       objectReference: {fileID: 880346573}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
+      propertyPath: EosCrystalLocked
+      value: 
+      objectReference: {fileID: 809071094}
+    - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
+        type: 3}
+      propertyPath: slowTimeUnlocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1817030383689306061, guid: c599985fb34829c43b8950a68263d6c9,
         type: 3}
       propertyPath: timeSlowRecharge
