@@ -36581,6 +36581,11 @@ PrefabInstance:
       propertyPath: MainCamera
       value: 
       objectReference: {fileID: 589398093}
+    - target: {fileID: 538083655473476887, guid: 328979cc03d931c4f97d5aa18119722f,
+        type: 3}
+      propertyPath: leverSound
+      value: 
+      objectReference: {fileID: 8652100480397546887}
     - target: {fileID: 2523786231689042668, guid: 328979cc03d931c4f97d5aa18119722f,
         type: 3}
       propertyPath: m_LocalPosition.x
