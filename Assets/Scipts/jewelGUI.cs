@@ -89,7 +89,7 @@ public class jewelGUI : MonoBehaviour
     {
         slotNumber = 0;
         Invoke("removeJewelSlots", 0.01f);
-        if (scene.name != "Main Menu" && scene.name != "The Interstice")
+        if (scene.name != "Main Menu" && scene.name != "The Interstice" && scene.name != "RoTComplete")
         {
             Invoke("countJewels", 0.1f);
         }

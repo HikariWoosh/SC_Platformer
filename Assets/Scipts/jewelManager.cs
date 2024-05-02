@@ -58,9 +58,16 @@ public class JewelManager : MonoBehaviour
 
     public void allJewelsCollected()
     {
-        if (SceneManager.GetActiveScene().name == "Realm Of Time" && timeSlow.slowTimeUnlocked != true)
+        if (SceneManager.GetActiveScene().name == "Realm Of Time")
         {
-            gameMenu.RoTC();
+            if(timeSlow.slowTimeUnlocked != true)
+            {
+                gameMenu.RoTC();
+            }
+            else
+            {
+                gameMenu.Interstice();
+            }
         }
     }
 }
