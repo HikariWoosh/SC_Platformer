@@ -49,6 +49,9 @@ public class leverScript : MonoBehaviour
     private GameObject Close;
 
     [SerializeField]
+    private AudioSource leverSound;
+
+    [SerializeField]
     private Animator anim; // Used to control animaiton 
 
     private void Start()
@@ -108,6 +111,7 @@ public class leverScript : MonoBehaviour
         if (other.tag.Equals("Player") && !isActive && Pulled)
         {
             anim.SetTrigger("Pulled");
+            leverSound.Play();
             TwoDLever.transform.rotation *= Quaternion.Euler(0, 180, 0);
             Close.SetActive(false);
             Pulled = false;

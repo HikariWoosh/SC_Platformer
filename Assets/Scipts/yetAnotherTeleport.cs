@@ -17,7 +17,7 @@ public class yetAnotherTeleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && PlayerPrefs.HasKey("tutorialCompleted") && PlayerPrefs.GetInt("tutorialCompleted") == 1) // If the collider is the player
+        if (other.gameObject.tag == "Player" && PlayerPrefs.HasKey("tutorialCompleted")) // If the collider is the player
         {
             gameMenu.Interstice();
         }

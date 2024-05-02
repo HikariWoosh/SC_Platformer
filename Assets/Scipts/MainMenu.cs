@@ -175,7 +175,6 @@ public class MainMenu : MonoBehaviour
 
     public void QualitySet(int qualityIndex)
     {
-        Debug.Log(qualityIndex);
         QualitySettings.SetQualityLevel(qualityIndex);
         PlayerPrefs.SetInt("qualityLevel", qualityIndex);
 

@@ -62,10 +62,5 @@ public class JewelManager : MonoBehaviour
         {
             gameMenu.RoTC();
         }
-        else
-        {
-            gameMenu.Interstice();
-        }
-
     }
 }

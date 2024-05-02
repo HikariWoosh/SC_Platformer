@@ -1,4 +1,3 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class teleportBeginning : MonoBehaviour

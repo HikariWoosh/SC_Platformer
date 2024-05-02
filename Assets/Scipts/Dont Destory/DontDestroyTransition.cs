@@ -9,6 +9,7 @@ public class DontDestroyTransition : MonoBehaviour
 
     void Awake()
     {
+
         if (transitionSystemInstance != null)
         {
             Destroy(gameObject);

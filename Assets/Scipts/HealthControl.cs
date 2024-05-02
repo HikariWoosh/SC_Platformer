@@ -195,7 +195,6 @@ public class HealthControl : MonoBehaviour
 
     public IEnumerator Fade()
     {
-        Debug.Log("Check");
 
         isFading = true;
 
