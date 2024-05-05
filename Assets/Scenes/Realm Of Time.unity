@@ -14508,8 +14508,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.0047278, y: 0.8781264, z: 2.0036893}
-  m_Center: {x: -0.0013044502, y: 0.5633457, z: 0.003826972}
+  m_Size: {x: 2.0047278, y: 0.8781264, z: 2.0088809}
+  m_Center: {x: -0.0013044502, y: 0.5633457, z: 0.0012312054}
 --- !u!1 &326809747
 GameObject:
   m_ObjectHideFlags: 0
@@ -14852,7 +14852,7 @@ Transform:
   m_GameObject: {fileID: 333741850}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 316.74908, y: 22.498482, z: -314.89563}
+  m_LocalPosition: {x: 316.74908, y: 22.6, z: -314.89563}
   m_LocalScale: {x: 1.6052396, y: 1, z: 1.3803575}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17172,7 +17172,6 @@ MonoBehaviour:
   canPull: 0
   Keypad: {fileID: 1681055804}
   keyCanvas: {fileID: 1681055807}
-  Player: {fileID: 0}
   MainCamera: {fileID: 0}
   ingameMenu: {fileID: 0}
   Collision: {fileID: 424964940}
@@ -17418,17 +17417,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 436205006}
   isActive: 0
   pullCooldown: 1
-  lastPullTime: 0
-  Pulled: 0
-  buttomPrompt: {fileID: 0}
-  statuePuzzleScript: {fileID: 0}
   rotationIndex: 1
   correctIndex: 2
+  rotationProgress: 0
+  rotationSpeed: 0.1
   inPlace: 0
+  lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  Pulled: 0
+  foxStatue: {fileID: 436205006}
+  buttomPrompt: {fileID: 0}
+  statuePuzzleScript: {fileID: 0}
 --- !u!135 &436205008
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31375,9 +31376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1429637a37292c243b76641f73bf1eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 625106728}
-  characterImage: {fileID: 909559451}
-  dialogueRead: 0
   dialogueLines:
   - 'Stel: This is the Realm of Time, the Realm of Eos.'
   - 'Hiro: So where is he?'
@@ -31408,6 +31406,9 @@ MonoBehaviour:
   - {fileID: 607255051}
   - {fileID: 607255051}
   - {fileID: 885440461}
+  text: {fileID: 625106728}
+  characterImage: {fileID: 909559451}
+  dialogueRead: 0
   textSpeed: 2
   timeToText: 0
   timeTillText: 5
@@ -31567,17 +31568,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0071e1c9cc97c7a4599007b9be2a93f9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 241.4
+      value: 239.97
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0071e1c9cc97c7a4599007b9be2a93f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.12
+      value: 15.86
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0071e1c9cc97c7a4599007b9be2a93f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -401.11273
+      value: -402.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0071e1c9cc97c7a4599007b9be2a93f9,
         type: 3}
@@ -37924,7 +37925,6 @@ MonoBehaviour:
   canPull: 0
   Keypad: {fileID: 1191733094}
   keyCanvas: {fileID: 1191733097}
-  Player: {fileID: 0}
   MainCamera: {fileID: 0}
   ingameMenu: {fileID: 0}
   Collision: {fileID: 826503504}
@@ -40389,17 +40389,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 900767623}
   isActive: 0
   pullCooldown: 1
-  lastPullTime: 0
-  Pulled: 0
-  buttomPrompt: {fileID: 0}
-  statuePuzzleScript: {fileID: 0}
   rotationIndex: 1
   correctIndex: 1
+  rotationProgress: 0
+  rotationSpeed: 0.1
   inPlace: 0
+  lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  Pulled: 0
+  foxStatue: {fileID: 900767623}
+  buttomPrompt: {fileID: 0}
+  statuePuzzleScript: {fileID: 0}
 --- !u!135 &900767625
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -53894,7 +53896,7 @@ Transform:
   m_GameObject: {fileID: 1033670324}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 358.00372, y: 22.498482, z: -467.78406}
+  m_LocalPosition: {x: 358.00372, y: 22.6, z: -467.78406}
   m_LocalScale: {x: 1.6052396, y: 1, z: 1.3803575}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54877,7 +54879,6 @@ Transform:
   - {fileID: 310365758}
   - {fileID: 1378380179}
   - {fileID: 751226401}
-  - {fileID: 1759379956}
   - {fileID: 610092974}
   - {fileID: 333741854}
   - {fileID: 1033670328}
@@ -60227,7 +60228,7 @@ Transform:
   m_GameObject: {fileID: 1082479506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 462.18375, y: 22.498482, z: -431.48062}
+  m_LocalPosition: {x: 462.18375, y: 22.6, z: -431.48062}
   m_LocalScale: {x: 1.6052396, y: 1, z: 1.3803575}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61174,7 +61175,7 @@ Transform:
   m_GameObject: {fileID: 1108348704}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 462.18375, y: 22.498482, z: -339.41077}
+  m_LocalPosition: {x: 462.18375, y: 22.6, z: -339.41077}
   m_LocalScale: {x: 1.6052396, y: 1, z: 1.3803575}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67570,17 +67571,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 1316518521}
   isActive: 0
   pullCooldown: 1
-  lastPullTime: 0
-  Pulled: 0
-  buttomPrompt: {fileID: 0}
-  statuePuzzleScript: {fileID: 0}
   rotationIndex: 1
   correctIndex: 2
+  rotationProgress: 0
+  rotationSpeed: 0.1
   inPlace: 0
+  lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  Pulled: 0
+  foxStatue: {fileID: 1316518521}
+  buttomPrompt: {fileID: 0}
+  statuePuzzleScript: {fileID: 0}
 --- !u!135 &1316518523
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -70214,7 +70217,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -70337,7 +70340,6 @@ MonoBehaviour:
   Statues: []
   allInPlace: 0
   jewel: {fileID: 646509653}
-  startPoint: {x: 0, y: 0, z: 0}
   jewelPoint: {fileID: 1391997043}
   solvedSound: {fileID: 1392991597}
 --- !u!82 &1392991597
@@ -73519,17 +73521,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 1508370947}
   isActive: 0
   pullCooldown: 1
-  lastPullTime: 0
-  Pulled: 0
-  buttomPrompt: {fileID: 0}
-  statuePuzzleScript: {fileID: 0}
   rotationIndex: 1
   correctIndex: 4
+  rotationProgress: 0
+  rotationSpeed: 0.1
   inPlace: 0
+  lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  Pulled: 0
+  foxStatue: {fileID: 1508370947}
+  buttomPrompt: {fileID: 0}
+  statuePuzzleScript: {fileID: 0}
 --- !u!135 &1508370949
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -81162,8 +81166,8 @@ Transform:
   m_GameObject: {fileID: 1759379952}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 409.4, y: 22.71, z: -405.1158}
-  m_LocalScale: {x: 12.226, y: 7, z: 10}
+  m_LocalPosition: {x: 123.51784, y: 1.2615168, z: -146.30005}
+  m_LocalScale: {x: 7.616308, y: 7, z: 7.244499}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 641690973}
@@ -81174,7 +81178,7 @@ Transform:
   - {fileID: 94321560}
   - {fileID: 1967350440}
   - {fileID: 291405426}
-  m_Father: {fileID: 1064997944}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1759379957
 MonoBehaviour:
@@ -81204,6 +81208,10 @@ MonoBehaviour:
   speed: 15
   distance: 0
   distanceFromPlayer: 0
+  direction: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  rotationProgress: 0
+  rotationSpeed: 0.1
   roaming: 0
   waypoints:
   - {fileID: 333741850}
@@ -81640,17 +81648,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 1766899055}
   isActive: 0
   pullCooldown: 1
+  rotationIndex: 1
+  correctIndex: 4
+  rotationProgress: 0
+  rotationSpeed: 0.1
+  inPlace: 0
   lastPullTime: 0
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  foxStatue: {fileID: 1766899055}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
-  rotationIndex: 1
-  correctIndex: 3
-  inPlace: 0
-  targetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!135 &1766899057
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -90211,17 +90221,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06939a5a2d1961c4db5131bc2523bbda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foxStatue: {fileID: 2055595726}
   isActive: 0
   pullCooldown: 1
-  lastPullTime: 0
-  Pulled: 0
-  buttomPrompt: {fileID: 0}
-  statuePuzzleScript: {fileID: 0}
   rotationIndex: 1
   correctIndex: 3
+  rotationProgress: 0
+  rotationSpeed: 0.1
   inPlace: 0
+  lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  Pulled: 0
+  foxStatue: {fileID: 2055595726}
+  buttomPrompt: {fileID: 0}
+  statuePuzzleScript: {fileID: 0}
 --- !u!135 &2055595728
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -94507,7 +94519,6 @@ MonoBehaviour:
   Lever: {fileID: 6551809115937666657}
   TwoDLever: {fileID: 7500795859429591326}
   MainCamera: {fileID: 0}
-  Player: {fileID: 0}
   Collision: {fileID: 9131014622955942918}
   buttomPrompt: {fileID: 0}
   Open: {fileID: 191376699}
@@ -94628,14 +94639,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147975338744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.05559881, w: 0.9984532}
-  m_LocalPosition: {x: 269.39447, y: 15.648482, z: -401.94098}
+  m_LocalRotation: {x: -0, y: -0, z: 0.040854853, w: 0.99916506}
+  m_LocalPosition: {x: 269.39447, y: 15.42, z: -401.94098}
   m_LocalScale: {x: 63.081387, y: 24.226597, z: 33.285942}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5821466889899723653}
   m_Father: {fileID: 1064997944}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.683}
 --- !u!4 &543450651754421830
 Transform:
   m_ObjectHideFlags: 0
@@ -100314,7 +100325,7 @@ Transform:
   m_GameObject: {fileID: 1937183331235323168}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -256.156, y: -56.23313, z: -60.70149}
+  m_LocalPosition: {x: -256.156, y: -58.96, z: -60.70149}
   m_LocalScale: {x: 10.316678, y: 6.426877, z: 8.8713875}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -125456,7 +125467,7 @@ Transform:
   m_GameObject: {fileID: 8186279636807105521}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.013790496, w: 0.99990493}
-  m_LocalPosition: {x: -0.001, y: -0.022, z: 0}
+  m_LocalPosition: {x: -0.013, y: 0.012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -132782,7 +132793,7 @@ Transform:
   m_GameObject: {fileID: 6884232551110200679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -382.98596, y: -56.23313, z: -85.520325}
+  m_LocalPosition: {x: -382.98596, y: -58.98, z: -85.520325}
   m_LocalScale: {x: 10.316678, y: 6.426877, z: 8.8713875}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -147358,6 +147369,7 @@ SceneRoots:
   - {fileID: 764012392}
   - {fileID: 1681055808}
   - {fileID: 1191733098}
+  - {fileID: 1759379956}
   - {fileID: 2111078264}
   - {fileID: 1569503693}
   - {fileID: 1855347362}
