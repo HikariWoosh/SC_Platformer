@@ -14508,8 +14508,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.0047278, y: 0.8781264, z: 2.0088809}
-  m_Center: {x: -0.0013044502, y: 0.5633457, z: 0.0012312054}
+  m_Size: {x: 1.9906168, y: 0.8781264, z: 1.9579568}
+  m_Center: {x: 0.0021216052, y: 0.5633457, z: -0.024229145}
 --- !u!1 &326809747
 GameObject:
   m_ObjectHideFlags: 0
@@ -17427,6 +17427,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 436205006}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -40399,6 +40400,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 900767623}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -67552,6 +67554,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1316518522}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 24dafc9d5613f664690bfdb7203c811a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1316518526}
   m_SourcePrefab: {fileID: 100100000, guid: 24dafc9d5613f664690bfdb7203c811a, type: 3}
 --- !u!1 &1316518521 stripped
 GameObject:
@@ -67581,6 +67587,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 1316518521}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -67632,6 +67639,103 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1316518520}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1316518526
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316518521}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -8982279067616812410, guid: 94a882ebd9dc57b49a0b845ced1ba4f5,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: dada8c471c06f6a4fbac71bcd9d0a6af, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.05
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1318671884
 GameObject:
   m_ObjectHideFlags: 0
@@ -73531,6 +73635,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 1508370947}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -81100,6 +81205,7 @@ GameObject:
   - component: {fileID: 1759379959}
   - component: {fileID: 1759379958}
   - component: {fileID: 1759379960}
+  - component: {fileID: 1759379961}
   m_Layer: 0
   m_Name: Treelid
   m_TagString: Treelid
@@ -81178,6 +81284,7 @@ Transform:
   - {fileID: 94321560}
   - {fileID: 1967350440}
   - {fileID: 291405426}
+  - {fileID: 1801326924}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1759379957
@@ -81203,6 +81310,8 @@ MonoBehaviour:
   attackCounter: 0
   healthControl: {fileID: 0}
   deathSound: {fileID: 5851075047421442444}
+  alertSound: {fileID: 1759379961}
+  detected: {fileID: 1801326923}
   aggroRange: 80
   returnTime: 0.5
   speed: 15
@@ -81288,6 +81397,103 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!82 &1759379961
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759379952}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -8982279067616812410, guid: 94a882ebd9dc57b49a0b845ced1ba4f5,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 2de745a4e93508048a8444ecdfc0a92c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1760416225
 GameObject:
   m_ObjectHideFlags: 0
@@ -81658,6 +81864,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 1766899055}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -82718,6 +82925,90 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1801326923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801326924}
+  - component: {fileID: 1801326925}
+  m_Layer: 0
+  m_Name: '!'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1801326924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801326923}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.016, y: 1.287, z: 0}
+  m_LocalScale: {x: 0.14266, y: 0.14266, z: 0.14266}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1759379956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1801326925
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801326923}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 3963f27332965d24eb82f4eed0b90bf0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1801619832
 GameObject:
   m_ObjectHideFlags: 0
@@ -90231,6 +90522,7 @@ MonoBehaviour:
   lastPullTime: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   Pulled: 0
+  turnSound: {fileID: 1316518526}
   foxStatue: {fileID: 2055595726}
   buttomPrompt: {fileID: 0}
   statuePuzzleScript: {fileID: 0}
@@ -94639,14 +94931,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147975338744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.040854853, w: 0.99916506}
-  m_LocalPosition: {x: 269.39447, y: 15.42, z: -401.94098}
+  m_LocalRotation: {x: -0, y: -0, z: 0.02797757, w: 0.9996086}
+  m_LocalPosition: {x: 268.54, y: 15.19, z: -401.94098}
   m_LocalScale: {x: 63.081387, y: 24.226597, z: 33.285942}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5821466889899723653}
   m_Father: {fileID: 1064997944}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.683}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.206}
 --- !u!4 &543450651754421830
 Transform:
   m_ObjectHideFlags: 0
@@ -111949,7 +112241,7 @@ Transform:
   m_GameObject: {fileID: 4611566937300863269}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -183.9523, y: -59.1, z: -78.79798}
+  m_LocalPosition: {x: -183.9523, y: -58.84, z: -78.79798}
   m_LocalScale: {x: 10.316678, y: 6.426877, z: 8.8713875}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -125466,9 +125758,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8186279636807105521}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.013790496, w: 0.99990493}
-  m_LocalPosition: {x: -0.013, y: 0.012, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0009059254, w: 0.9999996}
+  m_LocalPosition: {x: 0.0028314728, y: -0.0032287026, z: 0}
+  m_LocalScale: {x: 1.0000516, y: 1.0020572, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450651691475010}
@@ -126714,7 +127006,7 @@ Transform:
   m_GameObject: {fileID: 6345875557479328183}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -166.77623, y: -59.1, z: -78.79798}
+  m_LocalPosition: {x: -166.77623, y: -58.84, z: -78.79798}
   m_LocalScale: {x: 10.316678, y: 6.426877, z: 8.8713875}
   m_ConstrainProportionsScale: 0
   m_Children:

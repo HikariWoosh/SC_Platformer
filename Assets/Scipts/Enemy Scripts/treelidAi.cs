@@ -37,6 +37,12 @@ public class treelidAI : MonoBehaviour
     [SerializeField]
     private AudioSource deathSound; // Audio that is played upon enemy death
 
+    [SerializeField]
+    private AudioSource alertSound; // Audio that is played upon enemy death
+
+    [SerializeField]
+    private GameObject detected; // ! mark linked to enemy
+
 
     [Header("Enemy Controls")]
 
@@ -56,10 +62,10 @@ public class treelidAI : MonoBehaviour
     private float distanceFromPlayer; // The distance from the player
 
     [SerializeField]
-    private Vector3 direction;
+    private Vector3 direction; // Direction the enemy wants to go towards
 
     [SerializeField]
-    private Quaternion targetRotation;
+    private Quaternion targetRotation; // Rotation the enemy wants to face
 
     [SerializeField]
     private float rotationProgress; // Rotation of the enemy
@@ -160,11 +166,24 @@ public class treelidAI : MonoBehaviour
     // Follows the player around
     void chase()
     {
+        if (roaming)
+        {
+            StartCoroutine(detect());
+            alertSound.Play();
+        }
         roaming = false;
         animator.SetBool("running", true);
         movePosition = new Vector3(target.position.x, transform.position.y, target.position.z);
         transform.LookAt(movePosition);
         transform.position = Vector3.MoveTowards(treelid.position, movePosition, speed * Time.deltaTime);
+    }
+
+    // Displays a "!" over the enemy
+    IEnumerator detect()
+    {
+        detected.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        detected.SetActive(false);
     }
 
     // Function used when the player is too far from the island
@@ -195,10 +214,10 @@ public class treelidAI : MonoBehaviour
 
         while (rotationProgress < 0.1)
         {
-            // How much the statue has rotated through its cycle
+            // How much the enemy has rotated through its cycle
             rotationProgress += Time.deltaTime * rotationSpeed;
 
-            // Slerp the statues rotation based on the rotation progress
+            // Slerp the enemy rotation based on the rotation progress
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationProgress);
 
             yield return null;

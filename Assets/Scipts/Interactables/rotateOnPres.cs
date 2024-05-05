@@ -36,6 +36,9 @@ public class rotateOnPres : MonoBehaviour
     [SerializeField]
     private bool Pulled; // Bool to determine when the statue is rotating
 
+    [SerializeField]
+    private AudioSource turnSound; // Sound played on turn
+
 
     [Header("Game Objects")]
 
@@ -135,6 +138,8 @@ public class rotateOnPres : MonoBehaviour
 
         // Set the target rotation
         targetRotation = foxStatue.transform.rotation * Quaternion.Euler(0, 90, 0);
+
+        turnSound.Play();
 
         // While rotation progress is less than 1, interpolate the rotation
         while (rotationProgress < 0.1)
